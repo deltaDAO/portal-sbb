@@ -1,0 +1,28 @@
+.logo {
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+}
+
+.branding {
+  width: 5rem;
+  height: auto;
+}
+
+.coloring path {
+  fill: var(--font-color-heading);
+}
+
+a > .coloring:hover path {
+  fill: var(--color-primary);
+}
+
+.coloring path {
+  fill: var(--color-primary);
+}
+
+@media screen and (min-width: 55rem) {
+  .branding {
+    width: 7.5rem;
+  }
+}

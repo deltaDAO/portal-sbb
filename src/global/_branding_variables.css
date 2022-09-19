@@ -1,0 +1,49 @@
+:root {
+  --brand-pink: #3560a8;
+  --brand-purple: #1a335c;
+  --brand-violet: #3560a8;
+  --brand-cyan: #5bb7e4;
+  --brand-blue-faded: #3560a87a;
+
+  --brand-black: #1a335c;
+  --brand-dark-black: #040d1c;
+  --font-color-text: #212529;
+
+  --color-primary: #3560a8;
+  --color-primary-darker: #305697;
+
+  --color-menu-active: #3560a8;
+  --border-color-menu: var(--brand-dark-black);
+  --border-radius-menu: 2px;
+
+  --brand-gradient: linear-gradient(
+    to right bottom,
+    var(--color-primary),
+    var(--brand-pink)
+  );
+  --gradient-pink-violet: linear-gradient(
+    to right bottom,
+    var(--brand-pink),
+    var(--brand-violet)
+  );
+  --gradient-violet-purple: linear-gradient(
+    to right bottom,
+    var(--brand-violet),
+    var(--brand-purple)
+  );
+
+  --gradient-purple-cyan: linear-gradient(
+    to right top,
+    var(--brand-purple),
+    var(--brand-cyan)
+  );
+
+  -brand-grey-darker: #0f183f;
+  --brand-grey-dark: #0c1b5a;
+  --brand-grey: #6c7393;
+  --brand-grey-light: #c6ceef;
+  --brand-grey-lighter: #d4d4e2;
+  --brand-grey-dimmed: #f1f3f8;
+
+  --font-weight-base: 400;
+}

@@ -1,0 +1,119 @@
+.button {
+  position: relative;
+  border: 0;
+  cursor: pointer;
+  outline: 0;
+  margin: 0;
+  display: inline-block;
+  width: fit-content;
+  min-width: 7rem;
+  padding: calc(var(--spacer) / 3) var(--spacer);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  border-radius: var(--border-radius);
+  color: var(--brand-white);
+  background-color: var(--brand-grey-light);
+  user-select: none;
+  text-align: center;
+}
+
+.button:first-child {
+  margin-left: 0;
+}
+
+.button:last-child {
+  margin-right: 0;
+}
+
+.button:hover,
+.button:focus {
+  text-decoration: none;
+}
+
+.button:active {
+  transition: none;
+  transform: none;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+.primary {
+  background-color: var(--color-primary);
+}
+
+.primary:hover,
+.primary:focus,
+.primary:active {
+  background-color: var(--color-primary-darker);
+}
+
+.ghost,
+.ghost:hover,
+.ghost:focus,
+.ghost:active {
+  color: var(--brand-grey);
+  background: var(--brand-white);
+}
+
+.outline {
+  background: linear-gradient(
+    to right,
+    var(--color-primary) 50%,
+    var(--brand-white) 50%
+  );
+  /* 202% used to fix a Firefox specific behavior not moving the background as expected */
+  background-size: 202% 100%;
+  background-position: bottom right;
+  border: var(--border-size) solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.outline:hover {
+  background-position: bottom left;
+  color: var(--brand-white);
+}
+
+.text,
+.text:hover,
+.text:focus,
+.text:active {
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  padding: 0;
+  display: inline-block;
+  background: 0;
+  color: var(--brand-pink);
+  box-shadow: none;
+  cursor: pointer;
+  min-width: auto;
+}
+
+/* Size Modifiers */
+.small {
+  font-size: var(--font-size-small);
+  padding: calc(var(--spacer) / 4) calc(var(--spacer) / 2);
+}
+
+.text.small {
+  padding: 0;
+}
+
+.arrow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.arrow:hover {
+  display: flex;
+}
+
+.arrow svg {
+  transform: scale(0.5);
+}

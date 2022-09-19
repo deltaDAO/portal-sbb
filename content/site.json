@@ -1,0 +1,25 @@
+{
+  "site": {
+    "siteTitle": "Iliad Portal Demonstrator",
+    "siteTagline": "Digital infrastructures to provide predictions of future developments \"at sea.\"",
+    "siteUrl": "https://portal.minimal-gaia-x.eu",
+    "siteIcon": "./src/images/iliad_favicon.svg",
+    "siteImage": "../src/images/share.png",
+    "copyright": "All Rights Reserved. Powered by [Ocean Protocol](https://oceanprotocol.com). Built by [deltaDAO](https://delta-dao.com).",
+    "menu": [
+      {
+        "name": "Profile",
+        "link": "/profile"
+      }
+    ],
+    "warning": {
+      "main": "This MVG portal demonstrator was built for the 1st Gaia-X hackathon.",
+      "polygonPublish": "Only republish data sets with a pool from ETH Mainnet into Polygon/Matic if the liquidity is **less than or equal to 1000 OCEAN in the original pool**. Doing otherwise will lead to [purgatory](https://github.com/oceanprotocol/list-purgatory) for the data set in Polygon/Matic."
+    },
+    "announcement": {
+      "main": "Ocean Market is [available on Polygon](https://blog.oceanprotocol.com/ocean-on-polygon-network-8abad19cbf47).",
+      "polygon": "Polygon/Matic EVM support is in early stages. [Use the Polygon Bridge](https://docs.oceanprotocol.com/tutorials/polygon-bridge/) to get mOCEAN."
+    },
+    "badge": "Powered by Ocean Protocol"
+  }
+}

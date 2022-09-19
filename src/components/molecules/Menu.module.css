@@ -1,0 +1,141 @@
+.menu {
+  width: 100%;
+  padding: calc(var(--spacer) / 2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo {
+  order: 1;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.navigation {
+  order: 3;
+  margin-top: calc(var(--spacer) / 2);
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  margin-left: -1rem;
+  margin-right: -1rem;
+  width: calc(100% + 2rem);
+}
+
+.actions {
+  order: 2;
+  display: flex;
+}
+
+.actions > * {
+  margin: 0 calc(var(--spacer) / 6);
+}
+.actions > *:last-child() {
+  margin-right: 0;
+}
+.actions > *:first-child() {
+  margin-left: 0;
+}
+
+.title {
+  display: none;
+}
+
+@media screen and (min-width: 55rem) {
+  .menu {
+    justify-content: end;
+  }
+
+  .navigation {
+    order: 2;
+    width: auto;
+    margin: 0;
+    text-align: center;
+    border: none;
+  }
+
+  .actions {
+    order: 3;
+  }
+
+  .logo {
+    margin-right: auto;
+  }
+
+  /* .logo {
+    margin-left: 0;
+  }
+
+  .logo svg {
+    transform: none;
+  }
+
+  .logo svg g[class*='logo-gaia-full__text'],
+  .logo svg g[class*='gaia-full__rays'] {
+    opacity: 1;
+  } */
+}
+
+@media screen and (min-width: 55rem) {
+  .menu {
+    padding: calc(var(--spacer) / 1.5);
+  }
+
+  .title {
+    margin: 0;
+    margin-right: var(--spacer);
+    display: block;
+    color: var(--color-secondary);
+    font-size: var(--font-size-h4);
+  }
+}
+
+.navigation {
+  white-space: nowrap;
+  overflow-y: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+}
+
+.navigation::-webkit-scrollbar,
+.navigation::-moz-scrollbar {
+  display: none;
+}
+
+.navigation li {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: calc(var(--spacer) / 3);
+  margin-left: calc(var(--spacer) / 3);
+  position: relative;
+}
+
+.link {
+  display: block;
+  padding: calc(var(--spacer) / 4);
+  color: var(--brand-dark-black);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+  position: relative;
+  z-index: 1;
+}
+
+.link:hover,
+.link:focus,
+.link:active {
+  color: var(--color-menu-active);
+}
+
+.link[aria-current],
+.link[aria-current]:hover,
+.link[aria-current]:focus {
+  color: var(--color-primary);
+}
+
+.actions button {
+  text-transform: none;
+}

@@ -1,0 +1,20 @@
+.searchWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: calc(var(--spacer) * var(--line-height));
+}
+
+.section,
+.intro {
+  margin-top: calc(var(--spacer) * 2);
+}
+
+.section h3 {
+  font-size: var(--font-size-large);
+  color: var(--color-secondary);
+}
+
+.section [class*='button'],
+.allAssetsButton {
+  margin-top: var(--spacer);
+}

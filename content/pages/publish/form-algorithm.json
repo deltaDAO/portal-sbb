@@ -1,0 +1,114 @@
+{
+  "title": "Publish an Algorithm",
+  "data": [
+    {
+      "name": "name",
+      "label": "Title",
+      "placeholder": "e.g. Shapes of Desert Plants",
+      "help": "Enter a concise title.",
+      "required": true
+    },
+    {
+      "name": "description",
+      "label": "Description",
+      "help": "Add a thorough description with as much detail as possible. You can use [Markdown](https://daringfireball.net/projects/markdown/basics). You can change the description at any time. Please do not provide personal data in the description. Your description will remain permanently on-chain on the Gaia-X testnet. For more information, please refer to our [privacy policy](/privacy/en).",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "name": "files",
+      "label": "File",
+      "placeholder": "e.g. https://file.com/file.json",
+      "help": "Please enter the URL to your algorithm file and click \"ADD FILE\" to validate the data. This URL will be stored permanently encrypted on-chain on the Gaia-X testnet after publishing. Some restrictions apply:\n\n- max. running time: 1 min.\n- [Writing Algorithms for Compute to Data](https://docs.oceanprotocol.com/tutorials/compute-to-data-algorithms/)",
+      "type": "files",
+      "required": true
+    },
+    {
+      "name": "serviceSelfDescription",
+      "label": "Service Self-Description",
+      "placeholder": "e.g. https://file.com/service-self-description.json",
+      "help": "Please enter a valid service self description or a URL that point to it and click \"ADD FILE\" to validate the data. This file URL and its content will be publicly available after publishing",
+      "type": "serviceSelfDescription"
+    },
+    {
+      "name": "dockerImage",
+      "label": "Docker Image",
+      "placeholder": "e.g. python3.7",
+      "help": "Please select an image to run your algorithm.",
+      "type": "boxSelection",
+      "options": [],
+      "required": true
+    },
+    {
+      "name": "image",
+      "label": "Image URL",
+      "placeholder": "e.g. oceanprotocol/algo_dockers or https://example.com/image_path",
+      "help": "Provide the name of a public Docker image or the full url if you have it hosted in a 3rd party repo",
+      "required": false
+    },
+    {
+      "name": "containerTag",
+      "label": "Docker Image Tag",
+      "placeholder": "e.g. latest",
+      "help": "Provide the tag for your Docker image.",
+      "required": false
+    },
+    {
+      "name": "timeout",
+      "label": "Timeout",
+      "help": "Define how long buyers should be able to download the algorithm again after the initial purchase.",
+      "placeholder": "Forever",
+      "type": "select",
+      "options": ["Forever", "1 day", "1 week", "1 month", "1 year"],
+      "sortOptions": false,
+      "required": true
+    },
+    {
+      "name": "dataTokenOptions",
+      "label": "Datatoken Name & Symbol",
+      "type": "datatoken",
+      "help": "The datatoken for this algorithm will be created with this name & symbol.",
+      "required": true
+    },
+    {
+      "name": "entrypoint",
+      "label": "Entrypoint",
+      "placeholder": "e.g. python $ALGO",
+      "help": "Provide the entrypoint for your algorithm.",
+      "required": false
+    },
+    {
+      "name": "algorithmPrivacy",
+      "label": "Algorithm Privacy",
+      "type": "checkbox",
+      "options": ["Keep my algorithm private"],
+      "help": "By default, your algorithm can be downloaded for a fixed or dynamic price in addition to running in compute jobs. Enabling this option will prevent downloading, so your algorithm can only be run as part of a compute job on a data set.",
+      "required": false
+    },
+    {
+      "name": "tags",
+      "label": "Tags",
+      "placeholder": "e.g. logistics, ai",
+      "help": "Separate tags with comma."
+    },
+    {
+      "name": "providerUri",
+      "label": "Custom Provider URL",
+      "type": "providerUri",
+      "help": "Enter the URL for your custom provider or leave blank to use the default provider. [Learn more](https://github.com/oceanprotocol/provider/).",
+      "placeholder": "https://provider.polygon.oceanprotocol.com/",
+      "advanced": true
+    },
+    {
+      "name": "noPersonalData",
+      "label": "Metadata confirmation",
+      "type": "terms",
+      "options": [
+        "I confirm that I did not provide personal data in the metadata, which will be stored permanently on-chain on the Gaia-X testnet."
+      ],
+      "required": true
+    }
+  ],
+  "walletDisclaimer": "When you click submit, your wallet address and public key will be transmitted to a smart contract stored permanently on-chain on the Gaia-X testnet.",
+  "success": "Algorithm Published!"
+}

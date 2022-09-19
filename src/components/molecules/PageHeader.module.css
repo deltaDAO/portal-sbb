@@ -1,0 +1,81 @@
+.wrapper.home {
+  background-image: url('../../images/iliad_header.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: color;
+  background-color: var(--brand-blue-faded);
+}
+
+.header {
+  margin-bottom: var(--spacer);
+}
+
+.noPadding {
+  padding: 0;
+}
+
+.home .header {
+  max-width: 56rem;
+}
+
+.home .content {
+  padding: calc(var(--spacer) * 3) var(--spacer);
+}
+
+.title {
+  font-size: var(--font-size-h3);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.home .title {
+  color: var(--brand-white);
+}
+
+@media (min-width: 40rem) {
+  .title {
+    font-size: var(--font-size-h2);
+  }
+}
+
+.description,
+.powered {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  margin-top: calc(var(--spacer) / 4);
+  margin-bottom: 0;
+}
+
+.home .description,
+.home .powered {
+  color: var(--brand-white);
+}
+
+.powered {
+  margin-top: calc(var(--spacer) / 2);
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.header a {
+  display: inline-block;
+  margin: calc(var(--spacer) / 2) auto var(--spacer) auto;
+}
+
+.header svg {
+  width: 4rem;
+  height: 4rem;
+}
+
+.header svg path {
+  fill: var(--brand-white);
+}
+
+.header svg:hover path {
+  fill: var(--brand-black);
+}
