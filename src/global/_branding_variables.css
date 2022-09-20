@@ -24,6 +24,9 @@
   --footer-background: var(--brand-grey-primary);
   --footer-font-color: #d7d7d7;
 
+  --background-highlight: #fcfcfc;
+  --border-color: #e1e1e1;
+
   --brand-gradient: linear-gradient(
     to right bottom,
     var(--color-primary),

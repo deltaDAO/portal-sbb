@@ -2,7 +2,7 @@ import React, { ReactNode, ReactElement } from 'react'
 import PageHeader from '../molecules/PageHeader'
 import Seo from '../atoms/Seo'
 import Container from '../atoms/Container'
-
+import styles from './Page.module.css'
 export interface PageProps {
   children: ReactNode
   title?: string
@@ -39,7 +39,11 @@ export default function Page({
   return (
     <>
       <Seo title={title} description={description} uri={uri} />
-      {isHome ? childElements : <Container>{childElements}</Container>}
+      {isHome ? (
+        childElements
+      ) : (
+        <Container className={styles.pageContainer}>{childElements}</Container>
+      )}
     </>
   )
 }
