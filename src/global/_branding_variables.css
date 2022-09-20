@@ -2,7 +2,7 @@
   --brand-pink: #3560a8;
   --brand-purple: #1a335c;
   --brand-violet: #3560a8;
-  --brand-cyan: #5bb7e4;
+  --brand-cyan: #cc0000;
   --brand-blue-faded: #3560a87a;
 
   --brand-black: #1a335c;
@@ -11,10 +11,16 @@
 
   --color-primary: #3560a8;
   --color-primary-darker: #305697;
+  --color-secondary: var(--brand-cyan);
 
   --color-menu-active: #3560a8;
   --border-color-menu: var(--brand-dark-black);
   --border-radius-menu: 2px;
+
+  --menu-background: rgba(17, 17, 17, 0.8);
+  --menu-background-hover: #111;
+  --search-background: #b41815;
+  --search-background-hover: #861210;
 
   --brand-gradient: linear-gradient(
     to right bottom,
@@ -38,12 +44,15 @@
     var(--brand-cyan)
   );
 
-  -brand-grey-darker: #0f183f;
+  --brand-grey-darker: #0f183f;
   --brand-grey-dark: #0c1b5a;
   --brand-grey: #6c7393;
   --brand-grey-light: #c6ceef;
   --brand-grey-lighter: #d4d4e2;
   --brand-grey-dimmed: #f1f3f8;
+
+  --brand-grey-primary: #9d9d9d;
+  --brand-grey-secondary: #e8e6e1;
 
   --font-weight-base: 400;
 }

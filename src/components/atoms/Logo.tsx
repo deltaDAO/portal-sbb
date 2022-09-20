@@ -39,7 +39,6 @@ export default function Logo({
   coloring?: boolean
 }): ReactElement {
   const data = useStaticQuery(query)
-  console.log(data)
 
   const styleClasses = cx({
     logo: true,

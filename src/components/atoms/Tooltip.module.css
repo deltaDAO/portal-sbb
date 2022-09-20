@@ -4,9 +4,11 @@
 
 .content {
   composes: box from './Box.module.css';
-  padding: calc(var(--spacer) / 4);
+  padding: 0;
   max-width: 25rem;
   font-size: var(--font-size-small);
+  border-color: var(--menu-background);
+  border-radius: var(--border-radius);
 }
 
 .content p {
@@ -34,7 +36,7 @@
 .arrow::before {
   content: '';
   transform: rotate(45deg);
-  background: var(--border-color);
+  background: var(--menu-background);
 }
 
 .content[data-placement*='top'] > .arrow {

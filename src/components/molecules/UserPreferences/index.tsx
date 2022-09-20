@@ -15,7 +15,7 @@ export default function UserPreferences(): ReactElement {
           <Debug />
         </ul>
       }
-      trigger="click focus"
+      trigger="click focus mouseenter"
       className={styles.preferences}
       zIndex={11}
     >
