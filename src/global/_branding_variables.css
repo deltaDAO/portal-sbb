@@ -10,9 +10,9 @@
   --font-color-text: var(--brand-grey);
   --font-color-heading: var(--brand-black);
 
-  --color-primary: #3560a8;
+  --color-primary: var(--brand-cyan);
   --color-primary-darker: #305697;
-  --color-secondary: var(--brand-cyan);
+  --color-secondary: var(--brand-grey);
 
   --border-color-menu: var(--brand-dark-black);
   --border-radius-menu: 2px;

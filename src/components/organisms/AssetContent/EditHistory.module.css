@@ -13,7 +13,7 @@
   position: relative;
   display: block;
   margin-bottom: calc(var(--spacer) / 4);
-  color: var(--color-secondary);
+  color: var(--font-color-text);
 }
 
 .item::before {
@@ -33,7 +33,7 @@
   display: block;
   width: 1px;
   height: 110%;
-  background-color: var(--color-secondary);
+  background-color: var(--font-color-text);
 }
 
 .item:last-child::after {

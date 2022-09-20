@@ -135,13 +135,13 @@
 
 .radio:checked,
 .checkbox:checked {
-  border-color: var(--color-secondary);
-  background: var(--color-secondary);
+  border-color: var(--color-primary);
+  background: var(--color-primary);
 }
 
 .radio:focus,
 .checkbox:focus {
-  box-shadow: 0 0 0 var(--color-secondary);
+  box-shadow: 0 0 0 var(--color-primary);
 }
 
 .radio:checked::after,

@@ -93,6 +93,6 @@
   margin-left: 0.3rem;
 }
 
-button {
-  color: var(--brand-white) !important;
+.actions button {
+  color: var(--brand-white);
 }

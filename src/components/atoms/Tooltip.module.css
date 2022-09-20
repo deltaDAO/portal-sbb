@@ -7,8 +7,7 @@
   padding: 0;
   max-width: 25rem;
   font-size: var(--font-size-small);
-  border-color: var(--menu-background);
-  border-radius: var(--border-radius);
+  border: none;
 }
 
 .content p {

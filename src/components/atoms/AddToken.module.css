@@ -40,12 +40,12 @@
 
 .button:hover .logo,
 .button:focus .logo {
-  border-color: var(--color-secondary);
+  border-color: var(--color-primary);
 }
 
 .button:hover .logoWrap::before,
 .button:focus .logoWrap::before {
-  color: var(--color-secondary);
+  color: var(--color-primary);
 }
 
 .text {

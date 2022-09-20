@@ -13,7 +13,7 @@
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   border-radius: var(--border-radius);
-  color: var(--brand-white);
+  color: var(--color-primary);
   background-color: var(--brand-grey-light);
   user-select: none;
   text-align: center;
@@ -44,6 +44,7 @@
 }
 
 .primary {
+  color: var(--brand-white);
   background-color: var(--search-background);
 }
 
@@ -81,7 +82,6 @@
 
 .text,
 .text:hover,
-.text:focus,
 .text:active {
   border: 0;
   border-radius: 0;
@@ -89,14 +89,13 @@
   padding: 0;
   display: inline-block;
   background: 0;
-  color: var(--brand-cyan);
+  color: var(--color-primary);
   box-shadow: none;
   cursor: pointer;
   min-width: auto;
 }
 
 .text:hover,
-.text:focus,
 .text:active {
   text-decoration: underline;
 }

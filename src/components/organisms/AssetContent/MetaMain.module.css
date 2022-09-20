@@ -62,3 +62,11 @@
 .add {
   font-size: var(--font-size-mini);
 }
+
+.add span:before {
+  color: var(--font-color-heading);
+}
+
+.add span img {
+  border-color: var(--font-color-heading);
+}
