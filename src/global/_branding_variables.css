@@ -24,6 +24,8 @@
   --footer-background: var(--brand-grey-primary);
   --footer-font-color: #d7d7d7;
 
+  --pagination-box-shadow: 0px 0px 1px 0px rgb(0 0 0 / 20%);
+
   --background-highlight: #fcfcfc;
   --border-color: #e1e1e1;
 
