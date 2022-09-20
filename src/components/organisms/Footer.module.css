@@ -33,7 +33,7 @@
 .link:hover,
 .link a:hover,
 .link a:focus {
-  color: var(--color-secondary) !important;
+  text-decoration: underline;
 }
 
 .content p {

@@ -79,10 +79,11 @@ const homePageContentQuery = graphql`
         body
       }
     }
-    iliadContent: file(relativePath: { eq: "pages/index/iliadContent.json" }) {
-      childIndexJson {
-        title
-        body
+    partnerLogo: file(relativePath: { eq: "SBB_Logo_sRGB.jpg" }) {
+      childImageSharp {
+        original {
+          src
+        }
       }
     }
   }
@@ -110,10 +111,11 @@ interface HomeContent {
       body: string
     }
   }
-  iliadContent: {
-    childIndexJson: {
-      title: string
-      body: string
+  partnerLogo: {
+    childImageSharp: {
+      original: {
+        src: string
+      }
     }
   }
 }
@@ -195,9 +197,7 @@ export default function HomePage(): ReactElement {
   const { accountId, balance, balanceLoading, chainId, web3Loading } = useWeb3()
   const [showOnboarding, setShowOnboarding] = useState(false)
   const data: HomeContent = useStaticQuery(homePageContentQuery)
-  const { content, featuredAssets, iliadContent } = data
-
-  const { banners } = content.edges[0].node.childContentJson
+  const { featuredAssets, partnerLogo } = data
 
   useLayoutEffect(() => {
     const { eth, ocean } = balance
@@ -267,16 +267,11 @@ export default function HomePage(): ReactElement {
     <Permission eventType="browse">
       <>
         <PageHeader />
-        <Container>
-          <SectionTitle {...iliadContent.childIndexJson} />
-        </Container>
-
         {showOnboarding && (
           <section className={styles.content}>
             <OnboardingSection />
           </section>
         )}
-
         <Container>
           <SectionTitle {...featuredAssets.childIndexJson} />
           {queryLatest?.length > 0 &&

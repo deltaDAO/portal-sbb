@@ -7,7 +7,7 @@
   composes: box from '../atoms/Box.module.css';
   font-size: var(--font-size-small);
   height: 100%;
-  color: var(--color-secondary);
+  color: var(--font-color-text);
   position: relative;
   /* for sticking footer to bottom */
   display: flex;
