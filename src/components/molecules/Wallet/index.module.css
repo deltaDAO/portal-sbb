@@ -2,3 +2,7 @@
   display: flex;
   align-self: stretch;
 }
+
+.wallet svg {
+  fill: var(--brand-white);
+}
