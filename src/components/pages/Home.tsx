@@ -25,15 +25,14 @@ import {
 } from '../../models/SortAndFilters'
 import { BaseQueryParams } from '../../models/aquarius/BaseQueryParams'
 import { PagedAssets } from '../../models/PagedAssets'
-import HomeIntro from '../organisms/HomeIntro'
 import HomeContent from '../organisms/HomeContent'
 import Container from '../atoms/Container'
 import { useAddressConfig } from '../../hooks/useAddressConfig'
 import OnboardingSection from './Home/Onboarding'
 import { useWeb3 } from '../../providers/Web3'
 import SectionTitle from '../molecules/SectionTitle'
-import PromotionBanner from '../molecules/PromotionBanner'
 import { graphql, useStaticQuery } from 'gatsby'
+import PageHeader from './Home/Header'
 
 function sortElements(items: DDO[], sorted: string[]) {
   items.sort(function (a, b) {
@@ -267,6 +266,7 @@ export default function HomePage(): ReactElement {
   return (
     <Permission eventType="browse">
       <>
+        <PageHeader />
         <Container>
           <SectionTitle {...iliadContent.childIndexJson} />
         </Container>
@@ -297,7 +297,7 @@ export default function HomePage(): ReactElement {
           </Button>
         </Container>
         <section className={styles.content}>
-          <HomeContent />´
+          <HomeContent />
         </section>
       </>
     </Permission>

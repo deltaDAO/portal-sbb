@@ -41,7 +41,7 @@ export default function Footer(): ReactElement {
               <Button
                 style="text"
                 size="small"
-                className="link"
+                className={styles.link}
                 onClick={() => {
                   setShowPPC(true)
                 }}

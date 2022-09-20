@@ -5,15 +5,15 @@
   --brand-cyan: #cc0000;
   --brand-blue-faded: #3560a87a;
 
-  --brand-black: #1a335c;
+  --brand-black: #222222;
   --brand-dark-black: #040d1c;
-  --font-color-text: #212529;
+  --font-color-text: var(--brand-grey);
+  --font-color-heading: var(--brand-black);
 
   --color-primary: #3560a8;
   --color-primary-darker: #305697;
   --color-secondary: var(--brand-cyan);
 
-  --color-menu-active: #3560a8;
   --border-color-menu: var(--brand-dark-black);
   --border-radius-menu: 2px;
 
@@ -21,6 +21,8 @@
   --menu-background-hover: #111;
   --search-background: #b41815;
   --search-background-hover: #861210;
+  --footer-background: var(--brand-grey-primary);
+  --footer-font-color: #d7d7d7;
 
   --brand-gradient: linear-gradient(
     to right bottom,
@@ -46,8 +48,8 @@
 
   --brand-grey-darker: #0f183f;
   --brand-grey-dark: #0c1b5a;
-  --brand-grey: #6c7393;
-  --brand-grey-light: #c6ceef;
+  --brand-grey: #666666;
+  --brand-grey-light: #919191;
   --brand-grey-lighter: #d4d4e2;
   --brand-grey-dimmed: #f1f3f8;
 

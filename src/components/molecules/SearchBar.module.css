@@ -4,7 +4,7 @@
 }
 
 .button {
-  color: var(--color-secondary);
+  color: var(--font-color-text);
   cursor: pointer;
   background-color: var(--search-background);
   border: none;
