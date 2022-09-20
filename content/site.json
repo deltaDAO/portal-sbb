@@ -1,9 +1,9 @@
 {
   "site": {
-    "siteTitle": "Iliad Portal Demonstrator",
-    "siteTagline": "Digital infrastructures to provide predictions of future developments \"at sea.\"",
+    "siteTitle": "Berlin State Library Portal Demonstrator",
+    "siteTagline": "A platform to find, publish and consume Service Offerings in the Gaia-X Test Network.",
     "siteUrl": "https://portal.minimal-gaia-x.eu",
-    "siteIcon": "./src/images/iliad_favicon.svg",
+    "siteIcon": "./src/images/crossAsia-favicon.png",
     "siteImage": "../src/images/share.png",
     "copyright": "All Rights Reserved. Powered by [Ocean Protocol](https://oceanprotocol.com). Built by [deltaDAO](https://delta-dao.com).",
     "menu": [
