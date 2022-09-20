@@ -79,13 +79,6 @@ const homePageContentQuery = graphql`
         body
       }
     }
-    partnerLogo: file(relativePath: { eq: "SBB_Logo_sRGB.jpg" }) {
-      childImageSharp {
-        original {
-          src
-        }
-      }
-    }
   }
 `
 
@@ -109,13 +102,6 @@ interface HomeContent {
     childIndexJson: {
       title: string
       body: string
-    }
-  }
-  partnerLogo: {
-    childImageSharp: {
-      original: {
-        src: string
-      }
     }
   }
 }
@@ -197,7 +183,7 @@ export default function HomePage(): ReactElement {
   const { accountId, balance, balanceLoading, chainId, web3Loading } = useWeb3()
   const [showOnboarding, setShowOnboarding] = useState(false)
   const data: HomeContent = useStaticQuery(homePageContentQuery)
-  const { featuredAssets, partnerLogo } = data
+  const { featuredAssets } = data
 
   useLayoutEffect(() => {
     const { eth, ocean } = balance
