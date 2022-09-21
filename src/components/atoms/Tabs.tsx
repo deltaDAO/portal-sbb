@@ -9,18 +9,24 @@ interface TabsItem {
 
 export default function Tabs({
   items,
+  selectedIndex,
+  setSelectedIndex,
+  defaultIndex,
   className,
-  handleTabChange,
-  defaultIndex
+  handleTabChange
 }: {
   items: TabsItem[]
+  selectedIndex?: number
+  setSelectedIndex?: (index: number) => void
+  defaultIndex?: number
   className?: string
   handleTabChange?: (tabName: string) => void
-  defaultIndex?: number
 }): ReactElement {
   return (
     <ReactTabs
       className={`${className && className}`}
+      selectedIndex={selectedIndex}
+      onSelect={setSelectedIndex ? (e) => setSelectedIndex(e) : null}
       defaultIndex={defaultIndex}
     >
       <TabList className={styles.tabList}>

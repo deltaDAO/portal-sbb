@@ -1,8 +1,35 @@
+import { graphql, useStaticQuery } from 'gatsby'
 import React, { FormEvent, ReactElement } from 'react'
 import Alert from './Alert'
 import Button from './Button'
 import styles from './ButtonBuy.module.css'
 import Loader from './Loader'
+
+const query = graphql`
+  query {
+    content: allFile(filter: { relativePath: { eq: "assetDisclaimer.json" } }) {
+      edges {
+        node {
+          childContentJson {
+            disclaimerMessage
+          }
+        }
+      }
+    }
+  }
+`
+
+interface DisclaimerData {
+  content: {
+    edges: {
+      node: {
+        childContentJson: {
+          disclaimerMessage: string
+        }
+      }
+    }[]
+  }
+}
 
 interface ButtonBuyProps {
   action: 'download' | 'compute'
@@ -30,6 +57,7 @@ interface ButtonBuyProps {
   priceType?: string
   algorithmPriceType?: string
   algorithmConsumableStatus?: number
+  isAddressWhitelisted?: boolean
 }
 
 function getConsumeHelpText(
@@ -145,8 +173,12 @@ export default function ButtonBuy({
   type,
   priceType,
   algorithmPriceType,
-  algorithmConsumableStatus
+  algorithmConsumableStatus,
+  isAddressWhitelisted
 }: ButtonBuyProps): ReactElement {
+  const data: DisclaimerData = useStaticQuery(query)
+  const { disclaimerMessage } = data.content.edges[0].node.childContentJson
+
   const buttonText =
     action === 'download'
       ? hasPreviousOrder
@@ -167,11 +199,16 @@ export default function ButtonBuy({
       ) : (
         <>
           <div className={styles.warning}>
-            {action === 'compute' && algorithmConsumableStatus > 0 && (
+            {((action === 'compute' && algorithmConsumableStatus > 0) ||
+              (action === 'download' && isAddressWhitelisted === false)) && (
               <Alert
-                text={getAlgorithmConsumableStatusHelpText(
-                  algorithmConsumableStatus
-                )}
+                text={
+                  action === 'compute'
+                    ? getAlgorithmConsumableStatusHelpText(
+                        algorithmConsumableStatus
+                      )
+                    : 'Access denied, your wallet address is not found on the asset allow list.'
+                }
                 state="warning"
               />
             )}
@@ -215,6 +252,7 @@ export default function ButtonBuy({
                   selectedComputeAssetType,
                   algorithmConsumableStatus
                 )}
+            <Alert text={disclaimerMessage} state="info" />
           </div>
         </>
       )}

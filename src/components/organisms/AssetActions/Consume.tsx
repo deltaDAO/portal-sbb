@@ -18,7 +18,7 @@ import { secondsToString } from '../../../utils/metadata'
 import AlgorithmDatasetsListForCompute from '../AssetContent/AlgorithmDatasetsListForCompute'
 import styles from './Consume.module.css'
 import { useIsMounted } from '../../../hooks/useIsMounted'
-import Alert from '../../atoms/Alert'
+import { CredentialType } from './Edit/EditAdvancedSettings'
 
 const previousOrderQuery = gql`
   query PreviousOrder($id: String!, $account: String!) {
@@ -41,8 +41,7 @@ export default function Consume({
   dtBalance,
   fileIsLoading,
   isConsumable,
-  consumableFeedback,
-  consumeDisclaimerMessage
+  consumableFeedback
 }: {
   ddo: DDO
   file: FileMetadata
@@ -51,7 +50,6 @@ export default function Consume({
   fileIsLoading?: boolean
   isConsumable?: boolean
   consumableFeedback?: string
-  consumeDisclaimerMessage?: string
 }): ReactElement {
   const { accountId } = useWeb3()
   const { ocean } = useOcean()
@@ -67,6 +65,7 @@ export default function Consume({
   const [isConsumablePrice, setIsConsumablePrice] = useState(true)
   const [assetTimeout, setAssetTimeout] = useState('')
   const [data, setData] = useState<OrdersData>()
+  const [isAddressWhitelisted, setIsAddressWhitelisted] = useState<boolean>()
   const isMounted = useIsMounted()
 
   useEffect(() => {
@@ -125,9 +124,21 @@ export default function Consume({
   }, [dtBalance])
 
   useEffect(() => {
+    if (!ddo || !accountId || !ocean) return
+
+    const { result } = ocean.assets.checkCredential(
+      ddo,
+      CredentialType.address,
+      accountId
+    )
+    setIsAddressWhitelisted(result)
+  }, [ddo, accountId, ocean])
+
+  useEffect(() => {
     if (!accountId) return
     setIsDisabled(
       !isConsumable ||
+        !isAddressWhitelisted ||
         ((!ocean ||
           !isBalanceSufficient ||
           !isAssetNetwork ||
@@ -147,7 +158,8 @@ export default function Consume({
     isConsumablePrice,
     hasDatatoken,
     isConsumable,
-    accountId
+    accountId,
+    isAddressWhitelisted
   ])
 
   async function handleConsume() {
@@ -192,25 +204,23 @@ export default function Consume({
       isConsumable={isConsumable}
       isBalanceSufficient={isBalanceSufficient}
       consumableFeedback={consumableFeedback}
+      isAddressWhitelisted={isAddressWhitelisted}
     />
   )
 
   return (
     <aside className={styles.consume}>
       <div className={styles.info}>
-        <div className={styles.filewrapper}>
+        <div className={styles.fileWrapper}>
           <File file={file} isLoading={fileIsLoading} />
         </div>
-        <div className={styles.pricewrapper}>
+        <div className={styles.priceWrapper}>
           <Price price={price} conversion />
-          {!isInPurgatory && <PurchaseButton />}
         </div>
       </div>
-      {consumeDisclaimerMessage && (
-        <div className={styles.disclaimer}>
-          <Alert state="info" text={consumeDisclaimerMessage} />
-        </div>
-      )}
+      <div className={styles.purchaseWrapper}>
+        {!isInPurgatory && <PurchaseButton />}
+      </div>
       {type === 'algorithm' && (
         <AlgorithmDatasetsListForCompute algorithmDid={ddo.id} dataset={ddo} />
       )}

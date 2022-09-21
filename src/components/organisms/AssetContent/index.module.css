@@ -6,7 +6,7 @@
 }
 
 .network {
-  color: var(--brand-cyan);
+  color: var(--font-color-heading);
 }
 
 .grid,
