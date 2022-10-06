@@ -14,7 +14,10 @@ import {
 } from '../../../../utils/metadata'
 import { GX_NETWORK_ID } from '../../../../../chains.config'
 
-export default function FilesInput(props: InputProps): ReactElement {
+export default function FilesInput({
+  setStatus,
+  ...props
+}: InputProps): ReactElement {
   const [field, meta, helpers] = useField(props.name)
   const [isLoading, setIsLoading] = useState(false)
   const [fileUrl, setFileUrl] = useState<string>()
@@ -29,6 +32,7 @@ export default function FilesInput(props: InputProps): ReactElement {
         setIsLoading(true)
 
         if (field.name === 'serviceSelfDescription') {
+          setStatus('loading')
           const { verified } = await verifyServiceSelfDescription({
             body: fileUrl
           })
@@ -61,6 +65,7 @@ export default function FilesInput(props: InputProps): ReactElement {
         console.error(error.message)
       } finally {
         setIsLoading(false)
+        setStatus(null)
       }
     }
 

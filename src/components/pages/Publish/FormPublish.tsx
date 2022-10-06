@@ -85,11 +85,13 @@ export default function FormPublish({
   const accessTypeOptions = [
     {
       name: 'Download',
+      checked: false,
       title: 'Download',
       icon: <Download />
     },
     {
       name: 'Compute',
+      checked: false,
       title: 'Compute',
       icon: <Compute />
     }
@@ -106,7 +108,9 @@ export default function FormPublish({
     field: FormFieldProps
   ) {
     const value =
-      field.type === 'terms' ? !JSON.parse(e.target.value) : e.target.value
+      field.type === 'checkbox' || field.type === 'terms'
+        ? !JSON.parse(e.target.value)
+        : e.target.value
 
     if (field.name === 'access' && value === 'Compute') {
       setComputeTypeSelected(true)
@@ -159,6 +163,7 @@ export default function FormPublish({
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 handleFieldChange(e, field)
               }
+              setStatus={setStatus}
             />
           )
       )}
@@ -168,6 +173,7 @@ export default function FormPublish({
       />
 
       <FormActions
+        status={status}
         isValid={isValid}
         resetFormAndClearStorage={resetFormAndClearStorage}
         walletDisclaimer={content.walletDisclaimer}

@@ -96,41 +96,46 @@ export default function ServiceSelfDescription(
       <div>
         <BoxSelection
           name="serviceSelfDescriptionOptions"
-          options={serviceSelfDescriptionOptions}
+          options={serviceSelfDescriptionOptions.map((option) => ({
+            ...option,
+            checked: field.value !== '' && userSelection === option.name
+          }))}
           handleChange={(e) => {
             helpers.setValue(undefined)
             setUserSelection(e.target.value)
           }}
         />
       </div>
-      <div>
-        {userSelection === 'url' && <Input type="files" {...props} />}
-        {userSelection === 'raw' &&
-          (!isVerified ? (
-            <div>
-              <Input type="textarea" {...props} placeholder="" />
-              <Button
-                disabled={!field.value}
-                style="primary"
-                onClick={(e) => handleVerify(e, field.value)}
-              >
-                {!isLoading ? 'Verify' : <Loader />}
-              </Button>
-            </div>
-          ) : (
-            <div className={styles.previewContainer}>
-              <Markdown
-                text={getFormattedCodeString({
-                  body: field.value[0].raw,
-                  raw: true
-                })}
-              />
-              <Button style="text" onClick={(e) => handleEdit(e)}>
-                Edit
-              </Button>
-            </div>
-          ))}
-      </div>
+      {field.value !== '' && (
+        <div>
+          {userSelection === 'url' && <Input type="files" {...props} />}
+          {userSelection === 'raw' &&
+            (!isVerified ? (
+              <div>
+                <Input type="textarea" {...props} placeholder="" />
+                <Button
+                  disabled={!field.value}
+                  style="primary"
+                  onClick={(e) => handleVerify(e, field.value)}
+                >
+                  {!isLoading ? 'Verify' : <Loader />}
+                </Button>
+              </div>
+            ) : (
+              <div className={styles.previewContainer}>
+                <Markdown
+                  text={getFormattedCodeString({
+                    body: field.value[0].raw,
+                    raw: true
+                  })}
+                />
+                <Button style="text" onClick={(e) => handleEdit(e)}>
+                  Edit
+                </Button>
+              </div>
+            ))}
+        </div>
+      )}
     </div>
   )
 }
