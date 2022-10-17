@@ -3,6 +3,7 @@
   display: inline-flex;
   align-items: center;
   color: var(--color-secondary);
+  cursor: default;
 }
 
 .icon {

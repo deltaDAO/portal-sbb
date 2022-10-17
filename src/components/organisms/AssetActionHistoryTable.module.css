@@ -36,7 +36,7 @@
   display: inline-block;
   width: var(--font-size-mini);
   height: var(--font-size-mini);
-  fill: currentColor;
+  fill: var(--font-color-heading);
   transition: 0.2s ease-out;
 }
 

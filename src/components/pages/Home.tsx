@@ -25,15 +25,14 @@ import {
 } from '../../models/SortAndFilters'
 import { BaseQueryParams } from '../../models/aquarius/BaseQueryParams'
 import { PagedAssets } from '../../models/PagedAssets'
-import HomeIntro from '../organisms/HomeIntro'
 import HomeContent from '../organisms/HomeContent'
 import Container from '../atoms/Container'
 import { useAddressConfig } from '../../hooks/useAddressConfig'
 import OnboardingSection from './Home/Onboarding'
 import { useWeb3 } from '../../providers/Web3'
 import SectionTitle from '../molecules/SectionTitle'
-import PromotionBanner from '../molecules/PromotionBanner'
 import { graphql, useStaticQuery } from 'gatsby'
+import PageHeader from './Home/Header'
 
 function sortElements(items: DDO[], sorted: string[]) {
   items.sort(function (a, b) {
@@ -80,12 +79,6 @@ const homePageContentQuery = graphql`
         body
       }
     }
-    iliadContent: file(relativePath: { eq: "pages/index/iliadContent.json" }) {
-      childIndexJson {
-        title
-        body
-      }
-    }
   }
 `
 
@@ -106,12 +99,6 @@ interface HomeContent {
     }[]
   }
   featuredAssets: {
-    childIndexJson: {
-      title: string
-      body: string
-    }
-  }
-  iliadContent: {
     childIndexJson: {
       title: string
       body: string
@@ -196,9 +183,7 @@ export default function HomePage(): ReactElement {
   const { accountId, balance, balanceLoading, chainId, web3Loading } = useWeb3()
   const [showOnboarding, setShowOnboarding] = useState(false)
   const data: HomeContent = useStaticQuery(homePageContentQuery)
-  const { content, featuredAssets, iliadContent } = data
-
-  const { banners } = content.edges[0].node.childContentJson
+  const { featuredAssets } = data
 
   useLayoutEffect(() => {
     const { eth, ocean } = balance
@@ -267,16 +252,12 @@ export default function HomePage(): ReactElement {
   return (
     <Permission eventType="browse">
       <>
-        <Container>
-          <SectionTitle {...iliadContent.childIndexJson} />
-        </Container>
-
+        <PageHeader />
         {showOnboarding && (
           <section className={styles.content}>
             <OnboardingSection />
           </section>
         )}
-
         <Container>
           <SectionTitle {...featuredAssets.childIndexJson} />
           {queryLatest?.length > 0 &&
@@ -297,7 +278,7 @@ export default function HomePage(): ReactElement {
           </Button>
         </Container>
         <section className={styles.content}>
-          <HomeContent />´
+          <HomeContent />
         </section>
       </>
     </Permission>

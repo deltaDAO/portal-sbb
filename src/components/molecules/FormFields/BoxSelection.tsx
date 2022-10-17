@@ -46,7 +46,7 @@ export default function BoxSelection({
               id={value.name}
               type="radio"
               className={styleClassesInput}
-              defaultChecked={value.checked}
+              checked={value.checked}
               onChange={(event) => handleChange(event)}
               {...props}
               disabled={disabled}

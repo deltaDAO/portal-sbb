@@ -4,22 +4,21 @@
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-small);
   border: none;
-  padding: calc(var(--spacer) / 6) var(--spacer);
+  padding: calc(var(--spacer) / 6) calc(var(--spacer) / 3);
   white-space: nowrap;
   background: var(--background-content);
-  margin: 0;
+  margin: 0 calc(var(--spacer) / 6);
   transition: border 0.2s ease-out;
   cursor: pointer;
   height: 100%;
   display: flex;
   align-items: center;
-  border-radius: var(--border-radius);
 }
 
 .button,
 .address {
   color: var(--brand-white);
-  background-color: var(--color-primary);
+  background-color: inherit;
   z-index: 1;
 }
 
@@ -32,7 +31,7 @@
 .button:focus,
 .button:hover .address,
 .button:focus .address {
-  background-color: var(--color-primary-darker);
+  background-color: var(--menu-background-hover);
 }
 
 @media screen and (min-width: 42rem) {
@@ -44,7 +43,6 @@
 .address {
   display: none;
   text-transform: none;
-  padding-right: calc(var(--spacer) / 3);
   padding-left: calc(var(--spacer) / 8);
 }
 
@@ -64,7 +62,7 @@
   fill: var(--border-color);
   display: inline-block;
   vertical-align: middle;
-  margin-left: calc(var(--spacer) / 3);
+  margin-left: calc(var(--spacer) / 4);
   transition: transform 0.2s ease-out;
 }
 

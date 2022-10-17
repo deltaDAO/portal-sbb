@@ -1,6 +1,6 @@
 {
-  "name": "@deltaDAO/portal-iliad",
-  "description": "Iliad Portal demonstrator",
+  "name": "@deltaDAO/portal-sbb",
+  "description": "Berlin State Library Portal demonstrator",
   "version": "1.1.0",
   "license": "Apache-2.0",
   "homepage": "https://portal.minimal-gaia-x.eu",

@@ -4,9 +4,9 @@
 }
 
 .button {
-  color: var(--color-secondary);
+  color: var(--font-color-text);
   cursor: pointer;
-  background: var(--background-content);
+  background-color: var(--search-background);
   border: none;
   box-shadow: none;
   padding: 0;
@@ -17,12 +17,12 @@
   left: 1px;
   top: 1px;
   bottom: 1px;
-  z-index: -1;
 }
 
 .button:hover,
 .button:focus {
   color: var(--font-color-text);
+  background-color: var(--search-background-hover);
 }
 
 .input {
@@ -50,11 +50,8 @@
 }
 
 .searchIcon {
+  fill: white;
   transition: 0.2s ease-out;
   width: var(--font-size-h5);
   height: var(--font-size-h5);
-}
-
-.input:hover .searchIcon {
-  fill: var(--color-menu-active);
 }

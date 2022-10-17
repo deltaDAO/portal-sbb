@@ -8,7 +8,7 @@
   border-bottom: 1px solid var(--border-color);
   padding-bottom: calc(var(--spacer) / 3);
   text-align: center;
-  color: var(--color-secondary);
+  color: var(--font-color-heading);
   font-size: var(--font-size-small);
 }
 
@@ -22,6 +22,7 @@
 
 .calculation {
   min-width: 12rem;
+  padding: calc(var(--spacer) / 4);
 }
 
 .timeout {

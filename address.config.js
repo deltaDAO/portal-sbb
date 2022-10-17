@@ -5,10 +5,10 @@ module.exports = {
   },
   featured: [
     {
-      title: 'Water Temperature Prediction',
+      title: 'Text analysis',
       assets: [
-        'did:op:05F6562201Dc71B953ba55B9453e0fC688Ca8CA9',
-        'did:op:b30393155a1f6944Ab021a1126D328621584b478'
+        'did:op:7cb4Fd9E37061393A548809891805c70Af8d044F',
+        'did:op:06176ab87e413c4EAFfE4B7F04F063309ba5e1cf'
       ]
     }
   ]

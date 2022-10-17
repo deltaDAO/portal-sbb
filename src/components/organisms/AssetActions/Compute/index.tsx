@@ -59,15 +59,13 @@ export default function Compute({
   file,
   fileIsLoading,
   isConsumable,
-  consumableFeedback,
-  computeDisclaimerMessage
+  consumableFeedback
 }: {
   dtBalance: string
   file: FileMetadata
   fileIsLoading?: boolean
   isConsumable?: boolean
   consumableFeedback?: string
-  computeDisclaimerMessage?: string
 }): ReactElement {
   const { appConfig } = useSiteMetadata()
   const { accountId } = useWeb3()
@@ -486,11 +484,6 @@ export default function Compute({
             consumableFeedback={consumableFeedback}
           />
         </Formik>
-      )}
-      {computeDisclaimerMessage && (
-        <div className={styles.disclaimer}>
-          <Alert state="info" text={computeDisclaimerMessage} />
-        </div>
       )}
       <footer className={styles.feedback}>
         {isPublished && (
