@@ -4,6 +4,8 @@
   align-items: center;
   color: var(--color-secondary);
   cursor: default;
+  font-weight: var(--font-weight-bold);
+  cursor: default;
 }
 
 .icon {
@@ -26,4 +28,12 @@
 .minimal:hover .name {
   width: auto;
   opacity: 1;
+}
+
+@media screen and (min-width: 45rem) {
+  .minimal .name,
+  .minimal .name:hover {
+    width: auto;
+    opacity: 1;
+  }
 }

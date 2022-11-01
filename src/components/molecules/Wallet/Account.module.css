@@ -34,7 +34,7 @@
   background-color: var(--menu-background-hover);
 }
 
-@media screen and (min-width: 42rem) {
+@media screen and (min-width: 45rem) {
   .button.initial span {
     display: inline;
   }
@@ -46,7 +46,7 @@
   padding-left: calc(var(--spacer) / 8);
 }
 
-@media screen and (min-width: 60rem) {
+@media screen and (min-width: 45rem) {
   .address {
     display: inline-block;
   }
@@ -81,7 +81,7 @@ svg.caret {
   display: none;
 }
 
-@media screen and (min-width: 42rem) {
+@media screen and (min-width: 30rem) {
   .caret,
   svg.caret {
     display: inline-block;
