@@ -7,8 +7,8 @@ module.exports = {
     {
       title: 'Text analysis',
       assets: [
-        'did:op:7cb4Fd9E37061393A548809891805c70Af8d044F',
-        'did:op:06176ab87e413c4EAFfE4B7F04F063309ba5e1cf'
+        'did:op:5A3E99a1d126F2546589bCF5f6cB541ab87Aad83',
+        'did:op:1ea7A7F278669CfF1D0dD6CA608dd763fCcf8EE6'
       ]
     }
   ]

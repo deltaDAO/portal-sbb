@@ -8,12 +8,13 @@
 
 .name {
   font-size: var(--font-size-small);
+  color: var(--brand-white);
 }
 
 .badge {
   margin-left: calc(var(--spacer) / 8);
   background-color: var(--brand-white);
-  color: var(--font-color-text);
+  color: var(--color-primary);
 }
 
 .warning {
