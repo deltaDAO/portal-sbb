@@ -48,7 +48,7 @@
   display: none;
 }
 
-@media screen and (min-width: 55rem) {
+@media screen and (min-width: 50rem) {
   .menu {
     justify-content: end;
   }
