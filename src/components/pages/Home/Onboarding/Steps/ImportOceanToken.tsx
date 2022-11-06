@@ -65,8 +65,7 @@ export default function ImportOceanToken(): ReactElement {
         getErrorMessage({
           accountId,
           web3Provider: !!web3Provider,
-          networkId,
-          balance: null
+          networkId
         })
       )
       if (error.message) console.error(error.message)
