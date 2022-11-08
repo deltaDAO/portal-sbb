@@ -84,8 +84,11 @@ function UserPreferencesProvider({
     localStorage?.onboardingStep || 0
   )
 
-  const [showOnboardingModule, setShowOnboardingModule] =
-    useState<boolean>(true)
+  const [showOnboardingModule, setShowOnboardingModule] = useState<boolean>(
+    localStorage?.showOnboardingModule === undefined
+      ? true
+      : localStorage?.showOnboardingModule
+  )
 
   // Write values to localStorage on change
   useEffect(() => {
@@ -97,7 +100,8 @@ function UserPreferencesProvider({
       privacyPolicySlug,
       showPPC,
       infiniteApproval,
-      onboardingStep
+      onboardingStep,
+      showOnboardingModule
     })
   }, [
     chainIds,
