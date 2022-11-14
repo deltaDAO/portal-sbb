@@ -25,15 +25,14 @@
   text-transform: capitalize;
 }
 
-.links a {
-  color: var(--brand-white);
-}
-
+.links a,
 .links button {
+  color: var(--brand-white);
   transform: none !important;
   color: inherit;
   text-transform: capitalize;
   font-weight: var(--font-weight-base);
+  font-size: var(--font-size-small);
 }
 
 .links a:hover,
