@@ -1,0 +1,85 @@
+.header {
+  --image-height: 35rem;
+  position: relative;
+  height: var(--image-height);
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  height: 100%;
+  padding: 0;
+}
+
+.content {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  translate: -50%;
+  max-width: 35rem;
+  margin: auto;
+  background-color: #ffffffb3;
+  padding: calc(var(--spacer) / 4) calc(var(--spacer) / 2);
+}
+
+.title {
+  margin-bottom: 0;
+}
+
+.title,
+.body {
+  text-align: center;
+  color: var(--font-color-text);
+  font-weight: var(--font-weight-bold);
+}
+
+.carouselImageContainer {
+  position: relative;
+}
+
+.image,
+.carouselImageContainer:after {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--image-height);
+  width: 100%;
+  object-fit: cover;
+}
+
+.carouselIndicators {
+  --indicator-size: 8px;
+
+  display: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  gap: calc(var(--indicator-size) * 2);
+  align-self: flex-end;
+  padding: calc(var(--spacer) / 2);
+  background-color: var(--menu-background);
+}
+
+.indicator {
+  height: var(--indicator-size);
+  width: var(--indicator-size);
+  background-color: var(--brand-grey-light);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.active {
+  background-color: var(--brand-white);
+}
+
+@media screen and (min-width: 40rem) {
+  .carouselIndicators {
+    display: flex;
+  }
+}

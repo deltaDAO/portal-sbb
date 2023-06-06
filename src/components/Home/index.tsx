@@ -9,6 +9,7 @@ import { useAddressConfig } from '@hooks/useAddressConfig'
 import TopSales from './TopSales'
 import TopTags from './TopTags'
 import HomeContent from './Content'
+import Header from './Header/Header'
 
 interface FeaturedSection {
   title: string
@@ -78,6 +79,7 @@ export default function HomePage(): ReactElement {
 
   return (
     <>
+      <Header />
       {hasFeaturedAssets() && (
         <>
           {queryFeatured.map((section, i) => (
@@ -101,9 +103,6 @@ export default function HomePage(): ReactElement {
         action={<AllAssetsButton />}
       />
 
-      {/* <MostViews /> */}
-      <TopSales title="Publishers With Most Sales" />
-      <TopTags title="Top Tags By Sales" />
       <HomeContent />
     </>
   )
