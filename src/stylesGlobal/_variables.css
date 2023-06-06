@@ -47,6 +47,7 @@
   --menu-link-font-size: var(--font-size-base);
   --menu-link-font-weight: var(--font-weight-bold);
   --menu-link-font-weight-active: var(--font-weight-bold);
+  --menu-link-background-color-hover: #111;
   --menu-caret-size: var(--font-size-small);
   --menu-caret-fill-color: var(--brand-white);
   --menu-network-badge-font-color: var(--brand-white);

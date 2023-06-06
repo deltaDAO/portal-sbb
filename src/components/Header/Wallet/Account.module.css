@@ -21,9 +21,11 @@
 }
 
 .button:hover,
-.button:focus {
+.button:focus,
+[aria-expanded='true'] .button {
   transform: none;
   outline: 0;
+  background-color: var(--menu-link-background-color-hover);
 }
 
 .button.initial {

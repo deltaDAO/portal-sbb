@@ -91,33 +91,16 @@
 .link:active,
 .active {
   display: block;
-  padding: calc(var(--spacer) / 8) 0;
+  padding: calc(var(--spacer) / 4);
   text-transform: uppercase;
   transform: none;
   position: relative;
   z-index: 1;
 }
 
-.link:after {
-  content: '';
-  position: absolute;
-  background-color: var(--menu-font-color-hover);
-  height: 2px;
-  left: 1px;
-  right: 1px;
-  bottom: 0;
-  transform-origin: 0 50%;
-  transform: scaleX(0);
-  transition: transform 0.2s;
-}
-
-.link:hover:after,
-.active:after {
-  transform: scaleX(1);
-}
-
 .link:hover {
   color: var(--menu-font-color-hover);
+  background-color: var(--menu-link-background-color-hover);
 }
 
 .link:active,
@@ -125,10 +108,7 @@
 .active,
 .active:hover {
   color: var(--menu-font-color-active);
-}
-
-.active:after {
-  background-color: var(--menu-font-color-active);
+  background-color: var(--menu-link-background-color-hover);
 }
 
 .link[aria-disabled] {

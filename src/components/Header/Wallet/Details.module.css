@@ -50,6 +50,7 @@
 .bookmarksButton:active,
 .bookmarksButton:focus {
   color: var(--brand-red);
+  background-color: var(--brand-white);
 }
 
 .actions {
