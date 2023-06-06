@@ -6,8 +6,6 @@ import { SortTermOptions } from '../../@types/aquarius/SearchQuery'
 import SectionQueryResult from './SectionQueryResult'
 import styles from './index.module.css'
 import { useAddressConfig } from '@hooks/useAddressConfig'
-import TopSales from './TopSales'
-import TopTags from './TopTags'
 import HomeContent from './Content'
 import Header from './Header/Header'
 import Container from '@components/@shared/atoms/Container'
@@ -35,8 +33,6 @@ export default function HomePage(): ReactElement {
   const { featured, hasFeaturedAssets } = useAddressConfig()
 
   const [queryFeatured, setQueryFeatured] = useState<FeaturedSection[]>([])
-  const [queryRecent, setQueryRecent] = useState<SearchQuery>()
-  const [queryMostSales, setQueryMostSales] = useState<SearchQuery>()
 
   useEffect(() => {
     const baseParams = {
@@ -48,19 +44,6 @@ export default function HomePage(): ReactElement {
         sortBy: SortTermOptions.Created
       } as SortOptions
     } as BaseQueryParams
-
-    const baseParamsSales = {
-      chainIds,
-      esPaginationOptions: {
-        size: 6
-      },
-      sortOptions: {
-        sortBy: SortTermOptions.Orders
-      } as SortOptions
-    } as BaseQueryParams
-
-    setQueryRecent(generateBaseQuery(baseParams))
-    setQueryMostSales(generateBaseQuery(baseParamsSales))
 
     if (hasFeaturedAssets()) {
       const featuredSections = featured.map((section) => ({
@@ -94,17 +77,6 @@ export default function HomePage(): ReactElement {
             <AllAssetsButton />
           </>
         )}
-        <SectionQueryResult
-          title="Recently Published"
-          query={queryRecent}
-          action={<AllAssetsButton />}
-        />
-        <SectionQueryResult
-          title="Most Sales"
-          query={queryMostSales}
-          action={<AllAssetsButton />}
-        />
-
         <HomeContent />
       </Container>
     </>
