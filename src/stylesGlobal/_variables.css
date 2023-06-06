@@ -17,11 +17,12 @@
   --border-color: var(--brand-grey-lighter);
   --box-shadow-color: rgba(0, 0, 0, 0.05);
   --checkbox-selected-background: var(--brand-red);
-  --bookmark-icon-fill-color: var(--brand-grey-lighter);
-  --bookmark-icon-selected-fill-color: var(--brand-grey);
+  --bookmark-icon-fill-color: var(--brand-grey-light);
+  --bookmark-icon-selected-fill-color: var(--brand-red);
   --link-font-color: var(--color-highlight);
   --nft-refresh-icon-fill: var(--brand-white);
   --badge-background-color: var(--color-primary);
+  --file-icon-background-color: var(--brand-gradient);
 
   /* Menubar */
   --menu-logo-color: var(--color-primary);
@@ -82,7 +83,7 @@
   --button-text-font-color: var(--color-highlight);
 
   /* Loading spinner */
-  --loader-border-color: var(--brand-blue);
+  --loader-border-color: var(--color-primary);
   --loader-top-border-color: transparent;
   --loader-border-size: var(--border-size);
   --loader-message-color: var(--color-secondary);
