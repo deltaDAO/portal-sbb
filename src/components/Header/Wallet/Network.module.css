@@ -1,5 +1,5 @@
 .network {
-  border: var(--menu-border-size) solid var(--menu-border-color);
+  border: none;
   border-right: none;
   border-top-left-radius: var(--menu-border-radius);
   border-bottom-left-radius: var(--menu-border-radius);

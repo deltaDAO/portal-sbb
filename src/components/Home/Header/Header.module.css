@@ -22,7 +22,7 @@
   max-width: 35rem;
   margin: auto;
   background-color: #ffffffb3;
-  padding: calc(var(--spacer) / 4) calc(var(--spacer) / 2);
+  padding: calc(var(--spacer) / 2) var(--spacer);
 }
 
 .title {
@@ -63,7 +63,7 @@
   gap: calc(var(--indicator-size) * 2);
   align-self: flex-end;
   padding: calc(var(--spacer) / 2);
-  background-color: var(--menu-background);
+  background-color: rgba(17, 17, 17, 0.8);
 }
 
 .indicator {

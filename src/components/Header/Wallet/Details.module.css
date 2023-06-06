@@ -40,6 +40,16 @@
 .profileButton,
 .bookmarksButton {
   composes: link from '../../../components/Header/Menu.module.css';
+  color: var(--brand-red);
+}
+
+.profileButton:hover,
+.profileButton:active,
+.profileButton:focus,
+.bookmarksButton:hover,
+.bookmarksButton:active,
+.bookmarksButton:focus {
+  color: var(--brand-red);
 }
 
 .actions {

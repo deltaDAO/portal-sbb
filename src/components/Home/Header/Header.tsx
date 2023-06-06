@@ -4,6 +4,7 @@ import styles from './Header.module.css'
 import { animated, useSpringRef, useTransition } from 'react-spring'
 import Container from '@components/@shared/atoms/Container'
 import { useMarketMetadata } from '@context/MarketMetadata'
+import SearchBar from '@components/Header/SearchBar'
 
 const cx = classNames.bind(styles)
 const CAROUSEL_SCROLL_TIMEOUT = 10000
@@ -86,6 +87,9 @@ export default function PageHeader(): ReactElement {
         <div className={styles.content}>
           <h1 className={styles.title}>{siteTitle}</h1>
           <p className={styles.body}>{siteTagline}</p>
+          <div className={styles.search}>
+            <SearchBar placeholder="Search for service offerings" />
+          </div>
         </div>
       </Container>
       <div className={styles.carouselIndicators}>

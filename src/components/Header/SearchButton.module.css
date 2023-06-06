@@ -4,7 +4,7 @@
 
 .button {
   cursor: pointer;
-  background: var(--background-content);
+  background: var(--menu-search-background-color);
   border: none;
   box-shadow: none;
   padding: calc(var(--spacer) / 4);
@@ -20,6 +20,7 @@
 .button:hover,
 .button:focus {
   color: var(--font-color-text);
+  background: var(--menu-search-background-color-hover);
 }
 
 .searchIcon {

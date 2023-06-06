@@ -1,17 +1,18 @@
 :root {
   /* Portal brand color variables */
   --brand-white: #ffffff;
-  --brand-black: #000046;
-  --brand-blue: #000094;
+  --brand-black: #222222;
+  --brand-dark-black: #040d1c;
+  --brand-blue: #3560a8;
+  --brand-blue-dark: #1a335c;
   --brand-blue-light: #1651ed;
-  --brand-cyan: #46daff;
-  --brand-purple: #7300f3;
-  --brand-violet: #b900ff;
+  --brand-blue-faded: #3560a87a;
+  --brand-red: #cc0000;
 
   --brand-gradient: linear-gradient(
     to right bottom,
-    var(--brand-cyan),
-    var(--brand-blue-light)
+    var(--brand-blue),
+    var(--brand-blue-dark)
   );
 
   --brand-grey: #2b2e3b;
