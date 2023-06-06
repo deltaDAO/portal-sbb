@@ -10,6 +10,7 @@ import TopSales from './TopSales'
 import TopTags from './TopTags'
 import HomeContent from './Content'
 import Header from './Header/Header'
+import Container from '@components/@shared/atoms/Container'
 
 interface FeaturedSection {
   title: string
@@ -80,30 +81,32 @@ export default function HomePage(): ReactElement {
   return (
     <>
       <Header />
-      {hasFeaturedAssets() && (
-        <>
-          {queryFeatured.map((section, i) => (
-            <SectionQueryResult
-              key={`${section.title}-${i}`}
-              title={section.title}
-              query={section.query}
-            />
-          ))}
-          <AllAssetsButton />
-        </>
-      )}
-      <SectionQueryResult
-        title="Recently Published"
-        query={queryRecent}
-        action={<AllAssetsButton />}
-      />
-      <SectionQueryResult
-        title="Most Sales"
-        query={queryMostSales}
-        action={<AllAssetsButton />}
-      />
+      <Container>
+        {hasFeaturedAssets() && (
+          <>
+            {queryFeatured.map((section, i) => (
+              <SectionQueryResult
+                key={`${section.title}-${i}`}
+                title={section.title}
+                query={section.query}
+              />
+            ))}
+            <AllAssetsButton />
+          </>
+        )}
+        <SectionQueryResult
+          title="Recently Published"
+          query={queryRecent}
+          action={<AllAssetsButton />}
+        />
+        <SectionQueryResult
+          title="Most Sales"
+          query={queryMostSales}
+          action={<AllAssetsButton />}
+        />
 
-      <HomeContent />
+        <HomeContent />
+      </Container>
     </>
   )
 }
