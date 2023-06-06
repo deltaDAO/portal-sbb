@@ -9,6 +9,7 @@ import { useAddressConfig } from '@hooks/useAddressConfig'
 import HomeContent from './Content'
 import Header from './Header/Header'
 import Container from '@components/@shared/atoms/Container'
+import PoweredBy from './PoweredBy'
 
 interface FeaturedSection {
   title: string
@@ -78,6 +79,7 @@ export default function HomePage(): ReactElement {
           </>
         )}
         <HomeContent />
+        <PoweredBy />
       </Container>
     </>
   )

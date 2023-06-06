@@ -25,6 +25,7 @@
   --file-icon-background-color: var(--brand-gradient);
 
   /* Menubar */
+  --menu-background-color: rgba(17, 17, 17, 0.8);
   --menu-logo-color: var(--color-primary);
   --menu-logo-color-hover: var(--color-primary);
   --menu-logo-size-sm: 2rem;
@@ -51,7 +52,7 @@
   --menu-network-badge-font-color: var(--brand-white);
 
   /* Footer */
-  --footer-background-color: var(--brand-grey);
+  --footer-background-color: rgba(17, 17, 17, 0.8);
   --footer-font-color: var(--brand-white);
   --footer-font-color-highlight: var(--brand-cyan);
   --footer-link-category-font-color: var(--brand-white);
