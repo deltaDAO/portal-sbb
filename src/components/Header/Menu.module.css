@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  background-color: rgba(17, 17, 17, 0.8);
+  background-color: var(--menu-background-color);
 }
 
 .logo {
