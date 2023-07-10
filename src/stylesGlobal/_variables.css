@@ -21,6 +21,7 @@
   --bookmark-icon-selected-fill-color: var(--brand-red);
   --link-font-color: var(--color-highlight);
   --nft-refresh-icon-fill: var(--brand-white);
+  --nft-placeholder-background: var(--brand-gradient);
   --badge-background-color: var(--color-primary);
   --file-icon-background-color: var(--brand-gradient);
 
