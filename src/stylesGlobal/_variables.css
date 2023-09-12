@@ -92,6 +92,7 @@
   --loader-message-color: var(--color-secondary);
 
   /* Box template */
+  --box-template-font-color: var(--font-color-text);
   --box-template-background: var(--background-content);
   --box-template-border-radius: var(--border-radius);
   --box-template-border-size: var(--border-size-sm);
