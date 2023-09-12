@@ -4,11 +4,11 @@ import PublishedList from './PublishedList'
 import Downloads from './Downloads'
 import ComputeJobs from './ComputeJobs'
 import styles from './index.module.css'
-import { useWeb3 } from '@context/Web3'
 import { getComputeJobs } from '@utils/compute'
 import { useUserPreferences } from '@context/UserPreferences'
 import { useCancelToken } from '@hooks/useCancelToken'
 import { LoggerInstance } from '@oceanprotocol/lib'
+import { useAccount } from 'wagmi'
 
 interface HistoryTab {
   title: string
@@ -56,7 +56,7 @@ export default function HistoryPage({
 }: {
   accountIdentifier: string
 }): ReactElement {
-  const { accountId } = useWeb3()
+  const { address: accountId } = useAccount()
   const { chainIds } = useUserPreferences()
   const newCancelToken = useCancelToken()
 
@@ -66,6 +66,7 @@ export default function HistoryPage({
   const [refetchJobs, setRefetchJobs] = useState(false)
   const [isLoadingJobs, setIsLoadingJobs] = useState(false)
   const [jobs, setJobs] = useState<ComputeJobMetaData[]>([])
+  const [tabIndex, setTabIndex] = useState(0)
 
   const fetchJobs = useCallback(
     async (type: string) => {
@@ -114,10 +115,12 @@ export default function HistoryPage({
     setRefetchJobs
   )
 
-  let defaultTabIndex = 0
-  defaultTab === 'ComputeJobs' ? (defaultTabIndex = 4) : (defaultTabIndex = 0)
-
   return (
-    <Tabs items={tabs} className={styles.tabs} defaultIndex={defaultTabIndex} />
+    <Tabs
+      items={tabs}
+      className={styles.tabs}
+      selectedIndex={tabIndex}
+      onIndexSelected={setTabIndex}
+    />
   )
 }

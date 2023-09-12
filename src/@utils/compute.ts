@@ -9,7 +9,8 @@ import {
   Service,
   ProviderInstance,
   ComputeEnvironment,
-  ComputeJob
+  ComputeJob,
+  getErrorMessage
 } from '@oceanprotocol/lib'
 import { CancelToken } from 'axios'
 import { gql } from 'urql'
@@ -26,6 +27,7 @@ import { AssetSelectionAsset } from '@shared/FormInput/InputElement/AssetSelecti
 import { transformAssetToAssetSelection } from './assetConvertor'
 import { ComputeEditForm } from '../components/Asset/Edit/_types'
 import { getFileDidInfo } from './provider'
+import { toast } from 'react-toastify'
 
 const getComputeOrders = gql`
   query ComputeOrders($user: String!) {
@@ -135,7 +137,7 @@ export function getValidUntilTime(
   return Math.floor(mytime.getTime() / 1000)
 }
 
-export async function getComputeEnviroment(
+export async function getComputeEnvironment(
   asset: Asset
 ): Promise<ComputeEnvironment> {
   if (asset?.services[0]?.type !== 'compute') return null
@@ -150,7 +152,12 @@ export async function getComputeEnviroment(
     if (!computeEnv) return null
     return computeEnv
   } catch (e) {
-    LoggerInstance.error('[compute] Fetch compute enviroment: ', e.message)
+    const message = getErrorMessage(JSON.parse(e.message))
+    LoggerInstance.error(
+      '[Compute to Data] Fetch compute environment:',
+      message
+    )
+    toast.error(message)
   }
 }
 
@@ -169,7 +176,12 @@ export function getQueryString(
   algorithmDidList?.length > 0 &&
     baseParams.filters.push(getFilterTerm('_id', algorithmDidList))
   trustedPublishersList?.length > 0 &&
-    baseParams.filters.push(getFilterTerm('nft.owner', trustedPublishersList))
+    baseParams.filters.push(
+      getFilterTerm(
+        'nft.owner',
+        trustedPublishersList.map((address) => address.toLowerCase())
+      )
+    )
   const query = generateBaseQuery(baseParams)
 
   return query
@@ -204,7 +216,8 @@ export async function getAlgorithmsForAsset(
 
 export async function getAlgorithmAssetSelectionList(
   asset: Asset,
-  algorithms: Asset[]
+  algorithms: Asset[],
+  accountId: string
 ): Promise<AssetSelectionAsset[]> {
   if (!algorithms || algorithms?.length === 0) return []
 
@@ -216,6 +229,7 @@ export async function getAlgorithmAssetSelectionList(
     algorithmSelectionList = await transformAssetToAssetSelection(
       computeService?.serviceEndpoint,
       algorithms,
+      accountId,
       []
     )
   }
@@ -227,17 +241,27 @@ async function getJobs(
   accountId: string,
   assets: Asset[]
 ): Promise<ComputeJobMetaData[]> {
+  const uniqueProviders = [...new Set(providerUrls)]
+  const providersComputeJobsExtended: ComputeJobExtended[] = []
   const computeJobs: ComputeJobMetaData[] = []
-  // commented loop since we decide how to filter jobs
-  // for await (const providerUrl of providerUrls) {
-  try {
-    const providerComputeJobs = (await ProviderInstance.computeStatus(
-      providerUrls[0],
-      accountId
-    )) as ComputeJob[]
 
-    if (providerComputeJobs) {
-      providerComputeJobs.sort((a, b) => {
+  try {
+    for (let i = 0; i < uniqueProviders.length; i++) {
+      const providerComputeJobs = (await ProviderInstance.computeStatus(
+        uniqueProviders[i],
+        accountId
+      )) as ComputeJob[]
+
+      providerComputeJobs.forEach((job) =>
+        providersComputeJobsExtended.push({
+          ...job,
+          providerUrl: uniqueProviders[i]
+        })
+      )
+    }
+
+    if (providersComputeJobsExtended) {
+      providersComputeJobsExtended.sort((a, b) => {
         if (a.dateCreated > b.dateCreated) {
           return -1
         }
@@ -247,7 +271,7 @@ async function getJobs(
         return 0
       })
 
-      providerComputeJobs.forEach((job) => {
+      providersComputeJobsExtended.forEach((job) => {
         const did = job.inputDID[0]
         const asset = assets.filter((x) => x.id === did)[0]
         if (asset) {
@@ -262,9 +286,10 @@ async function getJobs(
       })
     }
   } catch (err) {
-    LoggerInstance.error(err.message)
+    const message = getErrorMessage(JSON.parse(err.message))
+    LoggerInstance.error('[Compute to Data] Error:', message)
+    toast.error(message)
   }
-  // }
   return computeJobs
 }
 
