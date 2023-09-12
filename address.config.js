@@ -1,6 +1,15 @@
 module.exports = {
   whitelists: {
-    'nft.owner': [],
+    'nft.owner': [
+      '0xF20113edd04d98A64AD2A003B836677E1c9aACAD', // Berlin State Library
+      '0x0279F7D611e8745BA16A4F1e83B752f8fc173870', // SBB 02
+      '0x23035d7E3cddc44b345eBF9DDDA2e1aaeCeeEeA1', // SBB 04
+      '0xb98B9304860Be2a90F86CFa738dbedEb6C6AdF98', // SBB 05
+      '0xE098a4DE67034a17b23CDfB7E81C49296361974F', // SBB 06
+      '0x67c39F79B1e5430104bCc4009A6210EAeB2672Bf', // SBB 07
+      '0xEF193A800e956b9fF1c379B7Ac3C55FCA38aDB15', // SBB 08
+      '0x8337649C1d86ab41d42ef91E303B814f9FfEC04d' // SBB 09
+    ],
     'datatokens.address': []
   },
   featured: [
