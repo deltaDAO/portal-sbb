@@ -10,6 +10,7 @@ import HomeContent from './Content'
 import Header from './Header/Header'
 import Container from '@components/@shared/atoms/Container'
 import PoweredBy from './PoweredBy'
+import OnboardingSection from '@components/@shared/Onboarding'
 
 interface FeaturedSection {
   title: string
@@ -30,7 +31,7 @@ function AllAssetsButton(): ReactElement {
 }
 
 export default function HomePage(): ReactElement {
-  const { chainIds } = useUserPreferences()
+  const { chainIds, showOnboardingModule } = useUserPreferences()
   const { featured, hasFeaturedAssets } = useAddressConfig()
 
   const [queryFeatured, setQueryFeatured] = useState<FeaturedSection[]>([])
@@ -66,6 +67,11 @@ export default function HomePage(): ReactElement {
     <>
       <Header />
       <Container>
+        {showOnboardingModule && (
+          <div className={styles.onboardingContainer}>
+            <OnboardingSection />
+          </div>
+        )}
         {hasFeaturedAssets() && (
           <>
             {queryFeatured.map((section, i) => (

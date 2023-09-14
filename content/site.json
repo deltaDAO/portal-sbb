@@ -1,7 +1,7 @@
 {
   "siteTitle": "Berlin State Library Portal Demonstrator",
   "siteTagline": "A platform to find, publish and consume Service Offerings in the Gaia-X Test Network.",
-  "siteUrl": "https://sbb.portal.minimal-gaia-x.eu",
+  "siteUrl": "https://sbb.pontus-x.eu",
   "siteImage": "/share.png",
   "copyright": "All Rights Reserved. Powered by [Ocean Protocol](https://oceanprotocol.com). Built by [deltaDAO](https://delta-dao.com).",
   "menu": [
@@ -15,7 +15,52 @@
     },
     {
       "name": "Log",
-      "link": "https://explorer.genx.minimal-gaia-x.eu/"
+      "link": "https://explorer.pontus-x.eu/"
+    },
+    {
+      "name": "Ecosystem",
+      "subItems": [
+        {
+          "name": "Airbus",
+          "link": "https://airbus.pontus-x.eu/"
+        },
+        {
+          "name": "Clinical Insights Exchange",
+          "link": "https://cix.triall.io/"
+        },
+        {
+          "name": "Cooperants",
+          "link": "https://cooperants.pontus-x.eu/"
+        },
+        {
+          "name": "EnergySHR",
+          "link": "https://www.energyshr.nl/"
+        },
+        {
+          "name": "EuProGigant",
+          "link": "https://portal.euprogigant.io/"
+        },
+        {
+          "name": "Future Mobility Marketplace",
+          "link": "https://marketplace.future-mobility-alliance.org/"
+        },
+        {
+          "name": "GX4M moveID",
+          "link": "https://portal.moveid.eu/"
+        },
+        {
+          "name": "Pontus-X",
+          "link": "https://pontus-x.eu/"
+        },
+        {
+          "name": "Service-Meister",
+          "link": "https://servicemeister.pontus-x.eu/"
+        },
+        {
+          "name": "UdL Research Data Space",
+          "link": "https://dataspace.angliru.udl.cat/"
+        }
+      ]
     }
   ],
   "announcement": "",
@@ -32,11 +77,7 @@
         "links": [
           {
             "name": "Log",
-            "link": "https://explorer.genx.minimal-gaia-x.eu/"
-          },
-          {
-            "name": "GEN-X Faucet",
-            "link": "https://faucet.genx.minimal-gaia-x.eu/"
+            "link": "https://explorer.pontus-x.eu/"
           }
         ]
       },

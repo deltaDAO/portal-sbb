@@ -39,7 +39,7 @@ export default function Links(): ReactElement {
             Imprint
           </Button>
           <Button
-            href="https://www.minimal-gaia-x.eu/privacy/en"
+            href="https://www.pontus-x.eu/privacy/en"
             className={styles.link}
           >
             Privacy

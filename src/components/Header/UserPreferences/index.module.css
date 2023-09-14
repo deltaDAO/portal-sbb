@@ -1,19 +1,27 @@
 .preferences {
   padding: calc(var(--spacer) / 4) calc(var(--spacer) / 3);
   cursor: pointer;
-  border: var(--menu-border-size) solid var(--menu-border-color);
+  border: none;
   border-radius: var(--menu-border-radius);
-  background-color: var(--background-content);
+  background-color: unset;
   white-space: nowrap;
 }
 
 .preferences svg {
   display: inline-block;
-  vertical-align: middle;
 }
 
 .caret {
   composes: caret from '../Menu.module.css';
+
+  display: none !important;
+  vertical-align: unset !important;
+}
+
+@media screen and (min-width: 25rem) {
+  .caret {
+    display: inline-block !important;
+  }
 }
 
 .icon {
