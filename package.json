@@ -78,7 +78,7 @@
     "slugify": "^1.6.5",
     "urql": "^3.0.3",
     "wagmi": "^0.12.12",
-    "yup": "^0.32.11"
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^6.5.13",
