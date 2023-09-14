@@ -2,9 +2,9 @@
 @import url('../../public/static/fonts/fonts.css');
 
 :root {
-  --color-primary: var(--brand-blue);
+  --color-primary: var(--brand-red);
   --color-secondary: var(--brand-grey-light);
-  --color-highlight: var(--brand-blue);
+  --color-highlight: var(--brand-red);
 
   /* Only use these vars for most color referencing for easy light/dark mode */
   --font-color-text: var(--brand-grey);
@@ -16,39 +16,45 @@
   --background-highlight: var(--brand-grey-dimmed);
   --border-color: var(--brand-grey-lighter);
   --box-shadow-color: rgba(0, 0, 0, 0.05);
-  --checkbox-selected-background: var(--brand-blue);
-  --bookmark-icon-fill-color: var(--brand-grey-lighter);
-  --bookmark-icon-selected-fill-color: var(--brand-grey);
+  --checkbox-selected-background: var(--brand-red);
+  --bookmark-icon-fill-color: var(--brand-grey-light);
+  --bookmark-icon-selected-fill-color: var(--brand-red);
   --link-font-color: var(--color-highlight);
   --nft-refresh-icon-fill: var(--brand-white);
+  --nft-placeholder-background: var(--brand-gradient);
   --badge-background-color: var(--color-primary);
+  --file-icon-background-color: var(--brand-gradient);
 
   /* Menubar */
+  --menu-background-color: rgba(17, 17, 17, 0.8);
   --menu-logo-color: var(--color-primary);
   --menu-logo-color-hover: var(--color-primary);
-  --menu-logo-size-sm: 7.5rem;
-  --menu-logo-size-lg: 7.5rem;
-  --menu-font-color: var(--color-primary);
-  --menu-font-color-active: var(--font-color-heading);
-  --menu-font-color-hover: var(--color-primary);
+  --menu-logo-size-sm: 2rem;
+  --menu-logo-size-lg: 5rem;
+  --menu-font-color: var(--brand-white);
+  --menu-font-color-active: var(--brand-white);
+  --menu-font-color-hover: var(--brand-white);
   --menu-active-indicator-color: var(--brand-blue);
   --menu-mobile-navigation-border-size: var(--border-size-sm);
   --menu-mobile-navigation-border-color: var(--brand-grey-lighter);
   --menu-border-color: var(--color-primary);
   --menu-border-radius: var(--border-radius-sm);
   --menu-border-size: var(--border-size);
-  --menu-icon-fill-color: var(--color-primary);
-  --menu-icon-fill-color-hover: var(--color-primary);
+  --menu-icon-fill-color: var(--brand-white);
+  --menu-icon-fill-color-hover: var(--brand-white);
+  --menu-search-background-color: var(--brand-red-dark);
+  --menu-search-background-color-hover: var(--brand-red-darker);
   --menu-title-font-size: var(--font-size-h4);
   --menu-link-font-size: var(--font-size-base);
   --menu-link-font-weight: var(--font-weight-bold);
   --menu-link-font-weight-active: var(--font-weight-bold);
+  --menu-link-background-color-hover: #111;
   --menu-caret-size: var(--font-size-small);
-  --menu-caret-fill-color: var(--color-primary);
+  --menu-caret-fill-color: var(--brand-white);
   --menu-network-badge-font-color: var(--brand-white);
 
   /* Footer */
-  --footer-background-color: var(--brand-grey);
+  --footer-background-color: rgba(17, 17, 17, 0.8);
   --footer-font-color: var(--brand-white);
   --footer-font-color-highlight: var(--brand-cyan);
   --footer-link-category-font-color: var(--brand-white);
@@ -80,12 +86,13 @@
   --button-text-font-color: var(--color-highlight);
 
   /* Loading spinner */
-  --loader-border-color: var(--brand-blue);
+  --loader-border-color: var(--color-primary);
   --loader-top-border-color: transparent;
   --loader-border-size: var(--border-size);
   --loader-message-color: var(--color-secondary);
 
   /* Box template */
+  --box-template-font-color: var(--font-color-text);
   --box-template-background: var(--background-content);
   --box-template-border-radius: var(--border-radius);
   --box-template-border-size: var(--border-size-sm);
@@ -122,9 +129,9 @@
   --filter-clear-hover-font-color: var(--color-highlight);
 
   /* Confetti */
-  --confetti-color-one: var(--brand-blue-light);
-  --confetti-color-two: var(--brand-cyan);
-  --confetti-color-three: var(--brand-violet);
+  --confetti-color-one: var(--brand-red);
+  --confetti-color-two: var(--brand-blue);
+  --confetti-color-three: var(--brand-blue-dark);
   --confetti-color-four: var(--brand-grey-light);
   --confetti-color-five: var(--brand-grey-lighter);
 

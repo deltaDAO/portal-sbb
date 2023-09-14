@@ -56,6 +56,7 @@ li:last-child .number {
 .current {
   cursor: default;
   pointer-events: none;
+  text-decoration: underline;
 }
 
 .current,

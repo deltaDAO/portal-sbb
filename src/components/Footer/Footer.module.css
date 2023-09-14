@@ -29,11 +29,9 @@
   color: var(--footer-font-color);
 }
 
-.main svg {
+.main img {
   width: 15rem;
-  height: 6rem !important;
-  margin-left: -0.7rem;
-  margin-top: auto;
+  margin-top: calc(var(--spacer) / 2);
 }
 
 .subtitle {

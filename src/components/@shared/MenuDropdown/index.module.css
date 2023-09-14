@@ -16,6 +16,13 @@
 .subItem {
   width: fit-content;
   text-transform: none !important;
+  color: var(--menu-link-background-color-hover);
+}
+
+.subItem:hover,
+.subItem:focus,
+.subItem:active {
+  color: var(--brand-white);
 }
 
 .caret,

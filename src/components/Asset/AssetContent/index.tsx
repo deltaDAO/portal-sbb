@@ -13,17 +13,15 @@ import EditHistory from './EditHistory'
 import styles from './index.module.css'
 import NetworkName from '@shared/NetworkName'
 import content from '../../../../content/purgatory.json'
-import Web3 from 'web3'
 import Button from '@shared/atoms/Button'
 import RelatedAssets from '../RelatedAssets'
 import {
   getFormattedCodeString,
-  getServiceSD
+  getServiceCredential
 } from '@components/Publish/_utils'
-import SDVisualizer from '@components/@shared/SDVisualizer'
-import DmButton from '@shared/DirectMessages/DmButton'
+import ServiceCredentialVisualizer from '@components/@shared/ServiceCredentialVisualizer'
 import Web3Feedback from '@components/@shared/Web3Feedback'
-import { useWeb3 } from '@context/Web3'
+import { useAccount } from 'wagmi'
 
 export default function AssetContent({
   asset
@@ -35,36 +33,36 @@ export default function AssetContent({
     purgatoryData,
     isOwner,
     isAssetNetwork,
-    isServiceSDVerified
+    isServiceCredentialVerified
   } = useAsset()
-  const { accountId } = useWeb3()
+  const { address: accountId } = useAccount()
   const { allowExternalContent, debug } = useUserPreferences()
   const [receipts, setReceipts] = useState([])
   const [nftPublisher, setNftPublisher] = useState<string>()
-  const [serviceSD, setServiceSD] = useState<string>()
+  const [serviceCredential, setServiceCredential] = useState<string>()
 
   useEffect(() => {
-    setNftPublisher(
-      Web3.utils.toChecksumAddress(
-        receipts?.find((e) => e.type === 'METADATA_CREATED')?.nft?.owner
-      )
-    )
+    if (!receipts.length) return
+
+    const publisher = receipts?.find((e) => e.type === 'METADATA_CREATED')?.nft
+      ?.owner
+    setNftPublisher(publisher)
   }, [receipts])
 
   useEffect(() => {
-    if (!isServiceSDVerified) return
-    const serviceSD =
+    if (!isServiceCredentialVerified) return
+    const serviceCredential =
       asset.metadata?.additionalInformation?.gaiaXInformation?.serviceSD
-    if (serviceSD?.raw) {
-      setServiceSD(JSON.parse(serviceSD?.raw))
+    if (serviceCredential?.raw) {
+      setServiceCredential(JSON.parse(serviceCredential?.raw))
     }
-    if (serviceSD?.url) {
-      getServiceSD(serviceSD?.url).then((serviceSelfDescription) =>
-        setServiceSD(JSON.parse(serviceSelfDescription))
+    if (serviceCredential?.url) {
+      getServiceCredential(serviceCredential?.url).then((credential) =>
+        setServiceCredential(JSON.parse(credential))
       )
     }
   }, [
-    isServiceSDVerified,
+    isServiceCredentialVerified,
     asset.metadata?.additionalInformation?.gaiaXInformation?.serviceSD
   ])
 
@@ -95,14 +93,15 @@ export default function AssetContent({
                   text={asset?.metadata?.description || ''}
                   blockImages={!allowExternalContent}
                 />
-                {isServiceSDVerified && (
-                  <div className={styles.sdVisualizer}>
-                    <SDVisualizer
-                      text={getFormattedCodeString(serviceSD) || ''}
-                      title="Service Self-Description"
-                      copyText={serviceSD && JSON.stringify(serviceSD, null, 2)}
-                    />
-                  </div>
+                {isServiceCredentialVerified && (
+                  <ServiceCredentialVisualizer
+                    text={getFormattedCodeString(serviceCredential) || ''}
+                    title="Service Credential"
+                    copyText={
+                      serviceCredential &&
+                      JSON.stringify(serviceCredential, null, 2)
+                    }
+                  />
                 )}
                 <MetaSecondary ddo={asset} />
               </>
@@ -122,9 +121,6 @@ export default function AssetContent({
               </Button>
             </div>
           )}
-          {/* <div className={styles.ownerActions}>
-            <DmButton accountId={asset?.nft?.owner} />
-          </div> */}
           <Web3Feedback
             networkId={asset?.chainId}
             accountId={accountId}

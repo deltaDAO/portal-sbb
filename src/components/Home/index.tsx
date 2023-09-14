@@ -6,9 +6,11 @@ import { SortTermOptions } from '../../@types/aquarius/SearchQuery'
 import SectionQueryResult from './SectionQueryResult'
 import styles from './index.module.css'
 import { useAddressConfig } from '@hooks/useAddressConfig'
-import TopSales from './TopSales'
-import TopTags from './TopTags'
 import HomeContent from './Content'
+import Header from './Header/Header'
+import Container from '@components/@shared/atoms/Container'
+import PoweredBy from './PoweredBy'
+import OnboardingSection from '@components/@shared/Onboarding'
 
 interface FeaturedSection {
   title: string
@@ -29,12 +31,10 @@ function AllAssetsButton(): ReactElement {
 }
 
 export default function HomePage(): ReactElement {
-  const { chainIds } = useUserPreferences()
+  const { chainIds, showOnboardingModule } = useUserPreferences()
   const { featured, hasFeaturedAssets } = useAddressConfig()
 
   const [queryFeatured, setQueryFeatured] = useState<FeaturedSection[]>([])
-  const [queryRecent, setQueryRecent] = useState<SearchQuery>()
-  const [queryMostSales, setQueryMostSales] = useState<SearchQuery>()
 
   useEffect(() => {
     const baseParams = {
@@ -46,19 +46,6 @@ export default function HomePage(): ReactElement {
         sortBy: SortTermOptions.Created
       } as SortOptions
     } as BaseQueryParams
-
-    const baseParamsSales = {
-      chainIds,
-      esPaginationOptions: {
-        size: 6
-      },
-      sortOptions: {
-        sortBy: SortTermOptions.Orders
-      } as SortOptions
-    } as BaseQueryParams
-
-    setQueryRecent(generateBaseQuery(baseParams))
-    setQueryMostSales(generateBaseQuery(baseParamsSales))
 
     if (hasFeaturedAssets()) {
       const featuredSections = featured.map((section) => ({
@@ -78,33 +65,28 @@ export default function HomePage(): ReactElement {
 
   return (
     <>
-      {hasFeaturedAssets() && (
-        <>
-          {queryFeatured.map((section, i) => (
-            <SectionQueryResult
-              key={`${section.title}-${i}`}
-              title={section.title}
-              query={section.query}
-            />
-          ))}
-          <AllAssetsButton />
-        </>
-      )}
-      <SectionQueryResult
-        title="Recently Published"
-        query={queryRecent}
-        action={<AllAssetsButton />}
-      />
-      <SectionQueryResult
-        title="Most Sales"
-        query={queryMostSales}
-        action={<AllAssetsButton />}
-      />
-
-      {/* <MostViews /> */}
-      <TopSales title="Publishers With Most Sales" />
-      <TopTags title="Top Tags By Sales" />
-      <HomeContent />
+      <Header />
+      <Container>
+        {showOnboardingModule && (
+          <div className={styles.onboardingContainer}>
+            <OnboardingSection />
+          </div>
+        )}
+        {hasFeaturedAssets() && (
+          <>
+            {queryFeatured.map((section, i) => (
+              <SectionQueryResult
+                key={`${section.title}-${i}`}
+                title={section.title}
+                query={section.query}
+              />
+            ))}
+            <AllAssetsButton />
+          </>
+        )}
+        <HomeContent />
+        <PoweredBy />
+      </Container>
     </>
   )
 }

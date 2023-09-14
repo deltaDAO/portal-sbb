@@ -1,4 +1,5 @@
-.section {
+.section,
+.onboardingContainer {
   margin-top: calc(var(--spacer) * 2);
 }
 

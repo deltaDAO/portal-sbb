@@ -2,11 +2,11 @@
   font-family: var(--font-family-base);
   font-size: var(--font-size-small);
   text-transform: uppercase;
-  border: var(--menu-border-size) solid var(--menu-border-color);
+  border: none;
   border-radius: var(--menu-border-radius);
   padding: calc(var(--spacer) / 4) calc(var(--spacer) / 3);
   white-space: nowrap;
-  background: var(--background-content);
+  background: none;
   margin: 0;
   transition: border 0.2s ease-out;
   cursor: pointer;
@@ -21,9 +21,11 @@
 }
 
 .button:hover,
-.button:focus {
+.button:focus,
+[aria-expanded='true'] .button {
   transform: none;
   outline: 0;
+  background-color: var(--menu-link-background-color-hover);
 }
 
 .button.initial {
@@ -37,8 +39,6 @@
 .address {
   display: none;
   text-transform: none;
-  border-right: var(--menu-border-size) solid var(--menu-border-color);
-  padding-right: calc(var(--spacer) / 3);
   padding-left: calc(var(--spacer) / 8);
 }
 
@@ -74,7 +74,7 @@ svg.caret {
   .caret,
   svg.caret {
     display: inline-block;
-    fill: var(--menu-icon-fill-color);
+    fill: var(--menu-caret-fill-color);
   }
 }
 
