@@ -10,6 +10,10 @@
       "link": "/search?sort=nft.created&sortOrder=desc"
     },
     {
+      "name": "Publish",
+      "link": "/publish/1"
+    },
+    {
       "name": "Verify",
       "link": "/verify"
     },
