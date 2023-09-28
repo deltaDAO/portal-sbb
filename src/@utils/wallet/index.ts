@@ -1,8 +1,9 @@
 import { LoggerInstance } from '@oceanprotocol/lib'
 import { createClient, erc20ABI } from 'wagmi'
-import { ethers, Contract, Signer } from 'ethers'
+import { ethers, Contract, Signer, providers } from 'ethers'
 import { formatEther } from 'ethers/lib/utils'
 import { getDefaultClient } from 'connectkit'
+import { polygonMumbai } from 'wagmi/chains'
 import { genx } from './chains'
 import { getNetworkDisplayName } from '@hooks/useNetworkMetadata'
 import { getOceanConfig } from '../ocean'
@@ -149,6 +150,14 @@ export async function addCustomNetwork(
   )
 }
 
+export function getAdjustDecimalsValue(
+  value: number,
+  decimals: number
+): string {
+  const adjustedDecimalsValue = `${value}${'0'.repeat(18 - decimals)}`
+  return formatEther(adjustedDecimalsValue)
+}
+
 export async function getTokenBalance(
   accountId: string,
   decimals: number,
@@ -160,10 +169,29 @@ export async function getTokenBalance(
   try {
     const token = new Contract(tokenAddress, erc20ABI, web3Provider)
     const balance = await token.balanceOf(accountId)
-    const adjustedDecimalsBalance = `${balance}${'0'.repeat(18 - decimals)}`
-    return formatEther(adjustedDecimalsBalance)
+
+    return getAdjustDecimalsValue(balance, decimals)
   } catch (e) {
     LoggerInstance.error(`ERROR: Failed to get the balance: ${e.message}`)
+  }
+}
+
+export async function getTokenAllowance(
+  owner: string,
+  spender: string,
+  decimals: number,
+  tokenAddress: string,
+  web3Provider: ethers.providers.Provider
+): Promise<string> {
+  if (!web3Provider || !owner || !spender || !tokenAddress) return
+
+  try {
+    const token = new Contract(tokenAddress, erc20ABI, web3Provider)
+    const allowance = await token.allowance(owner, spender)
+
+    return getAdjustDecimalsValue(allowance, decimals)
+  } catch (e) {
+    LoggerInstance.error(`ERROR: Failed to get the allowance: ${e.message}`)
   }
 }
 

@@ -9,6 +9,7 @@ import React, {
 import { LoggerInstance, LogLevel } from '@oceanprotocol/lib'
 import { isBrowser } from '@utils/index'
 import { useMarketMetadata } from './MarketMetadata'
+import { AutomationMessage } from './Automation/AutomationProvider'
 
 interface UserPreferencesValue {
   debug: boolean
@@ -31,6 +32,11 @@ interface UserPreferencesValue {
   showOnboardingModule: boolean
   setShowOnboardingModule: (value: boolean) => void
   locale: string
+  automationMessages: AutomationMessage[]
+  addAutomationMessage: (message: AutomationMessage) => void
+  removeAutomationMessage: (address: string) => void
+  automationWalletMode: string
+  setAutomationWalletMode: (mode: string) => void
 }
 
 const UserPreferencesContext = createContext(null)
@@ -91,6 +97,14 @@ function UserPreferencesProvider({
       : localStorage?.showOnboardingModule
   )
 
+  const [automationMessages, setAutomationMessages] = useState<
+    AutomationMessage[]
+  >(localStorage?.automationMessages || [])
+
+  const [automationWalletMode, setAutomationWalletMode] = useState<string>(
+    localStorage?.automationWalletMode || 'advanced'
+  )
+
   // Write values to localStorage on change
   useEffect(() => {
     setLocalStorage({
@@ -102,7 +116,9 @@ function UserPreferencesProvider({
       showPPC,
       allowExternalContent,
       onboardingStep,
-      showOnboardingModule
+      showOnboardingModule,
+      automationMessages,
+      automationWalletMode
     })
   }, [
     chainIds,
@@ -113,7 +129,9 @@ function UserPreferencesProvider({
     showPPC,
     allowExternalContent,
     onboardingStep,
-    showOnboardingModule
+    showOnboardingModule,
+    automationMessages,
+    automationWalletMode
   ])
 
   // Set ocean.js log levels, default: Error
@@ -151,6 +169,18 @@ function UserPreferencesProvider({
     setBookmarks(newPinned)
   }, [bookmarks])
 
+  function addAutomationMessage(message: AutomationMessage) {
+    const newMessages = [...automationMessages, message]
+    setAutomationMessages(newMessages)
+  }
+
+  function removeAutomationMessage(address: string) {
+    const newMessages = automationMessages.filter(
+      (message) => message.address.toLowerCase() !== address.toLowerCase()
+    )
+    setAutomationMessages(newMessages)
+  }
+
   // chainIds old data migration
   // remove deprecated networks from user-saved chainIds
   useEffect(() => {
@@ -182,7 +212,12 @@ function UserPreferencesProvider({
           onboardingStep,
           setOnboardingStep,
           showOnboardingModule,
-          setShowOnboardingModule
+          setShowOnboardingModule,
+          automationMessages,
+          addAutomationMessage,
+          removeAutomationMessage,
+          automationWalletMode,
+          setAutomationWalletMode
         } as UserPreferencesValue
       }
     >
