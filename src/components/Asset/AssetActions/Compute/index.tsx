@@ -234,7 +234,9 @@ export default function Compute({
       const initializedProvider = await initializeProviderForCompute(
         asset,
         selectedAlgorithmAsset,
-        accountId || ZERO_ADDRESS, // if the user is not connected, we use ZERO_ADDRESS as accountId
+        isAutomationEnabled && autoWallet?.address
+          ? autoWallet.address
+          : accountId || ZERO_ADDRESS, // if the user is not connected, we use ZERO_ADDRESS as accountId
         selectedComputeEnv
       )
 
