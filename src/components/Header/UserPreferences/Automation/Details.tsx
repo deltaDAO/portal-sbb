@@ -128,12 +128,13 @@ export default function Details({
         </Button>
       ) : (
         <>
+          {/* TODO: update importing */}
           <input type="file" id="walletImport" />
           <Button
             onClick={async () => {
               const password = prompt('Password:')
-              // @ts-ignore
-              const filename = document.getElementById('walletImport').files[0]
+              const filename = (document.getElementById('walletImport') as any)
+                .files[0]
               const reader = new FileReader()
               reader.readAsText(filename)
               reader.onload = async (event) => {
