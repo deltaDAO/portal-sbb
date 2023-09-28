@@ -1,17 +1,60 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useAutomation } from '../../../../@context/Automation/AutomationProvider'
-import Balance from './Balance'
-import { toast } from 'react-toastify'
-import { accountTruncate } from '../../../../@utils/wallet'
+import { useMarketMetadata } from '../../../../@context/MarketMetadata'
+import { useUserPreferences } from '../../../../@context/UserPreferences'
 import Button from '../../../@shared/atoms/Button'
-import Copy from '../../../@shared/atoms/Copy'
+import Loader from '../../../@shared/atoms/Loader'
+import { AUTOMATION_WALLET_MODES } from '../AutomationWalletMode'
+import Balance from './Balance'
 import styles from './Details.module.css'
 import FundWallet from './FundWallet'
 import WithdrawTokens from './WithdrawTokens'
-import { useMarketMetadata } from '../../../../@context/MarketMetadata'
-import { useUserPreferences } from '../../../../@context/UserPreferences'
-import { AUTOMATION_WALLET_MODES } from '../AutomationWalletMode'
-import Loader from '../../../@shared/atoms/Loader'
+import Import from './Import'
+import Address from './Address'
+import Decrypt from './Decrypt'
+
+function AdvancedView(): ReactElement {
+  return (
+    <div className={styles.advanced}>
+      <Balance />
+
+      <FundWallet className={styles.fundingBtn} />
+
+      <WithdrawTokens className={styles.withdrawBtn} />
+    </div>
+  )
+}
+
+function SimpleView({
+  isFunded,
+  roughTxCountEstimate
+}: {
+  isFunded: boolean
+  roughTxCountEstimate?: number
+}): ReactElement {
+  return (
+    <div className={styles.simple}>
+      {isFunded ? (
+        <>
+          {roughTxCountEstimate && (
+            <span className={styles.success}>
+              Automation available for roughly {roughTxCountEstimate.toFixed(0)}{' '}
+              transactions.
+            </span>
+          )}
+          <WithdrawTokens>Empty Wallet</WithdrawTokens>
+        </>
+      ) : (
+        <>
+          <span className={styles.error}>
+            Automation not sufficiently funded!
+          </span>
+          <FundWallet style="primary">Recharge wallet</FundWallet>
+        </>
+      )}
+    </div>
+  )
+}
 
 export default function Details({
   isFunded
@@ -20,21 +63,27 @@ export default function Details({
 }): ReactElement {
   const {
     autoWallet,
+    autoWalletAddress,
     isAutomationEnabled,
     balance,
     isLoading,
     setIsAutomationEnabled,
     deleteCurrentAutomationWallet,
     exportAutomationWallet,
-    importAutomationWallet,
-    activateAutomation
+    hasValidEncryptedWallet
   } = useAutomation()
 
   const { automationConfig } = useMarketMetadata().appConfig
-
   const { automationWalletMode } = useUserPreferences()
 
   const [roughTxCountEstimate, setRoughTxCountEstimate] = useState<number>()
+  const [needsImport, setNeedsImport] = useState<boolean>(
+    !hasValidEncryptedWallet()
+  )
+
+  useEffect(() => {
+    setNeedsImport(!hasValidEncryptedWallet())
+  }, [hasValidEncryptedWallet])
 
   useEffect(() => {
     if (!automationConfig.roughTxGasEstimate || !balance) return
@@ -47,66 +96,42 @@ export default function Details({
     deleteCurrentAutomationWallet()
   }
 
-  const toggleAutomation = useCallback(async () => {
-    if (isAutomationEnabled) {
-      setIsAutomationEnabled(false)
-      return
-    }
-
-    await activateAutomation()
-  }, [isAutomationEnabled, activateAutomation, setIsAutomationEnabled])
-
   return (
     <div className={styles.details}>
-      <Button
-        style="primary"
-        onClick={() => {
-          toggleAutomation()
-        }}
-        className={styles.toggleBtn}
-      >
-        {isAutomationEnabled ? 'Disable automation' : 'Enable automation'}
-      </Button>
+      {/* DESCRIPTION */}
+      <strong className={styles.title}>Automation</strong>
+      <div className={styles.help}>
+        Automate transactions using an imported wallet of your choice.
+      </div>
 
-      {autoWallet?.wallet?.address && (
-        <span className={styles.walletAddress}>
-          Address:{' '}
-          <strong>{accountTruncate(autoWallet?.wallet?.address)}</strong>
-          <Copy text={autoWallet?.wallet?.address} />
-        </span>
+      {/* EN-/DISABLE */}
+      {autoWallet?.address && (
+        <Button
+          style="primary"
+          onClick={() => {
+            setIsAutomationEnabled(!isAutomationEnabled)
+          }}
+          className={styles.toggleBtn}
+        >
+          {isAutomationEnabled ? 'Disable automation' : 'Enable automation'}
+        </Button>
       )}
 
-      {autoWallet?.wallet && (
+      {/* AUTOMATION ADDRESS */}
+      {autoWalletAddress && (
+        <Address showDelete={autoWallet === undefined && !isLoading} />
+      )}
+
+      {/* MAIN AUTOMATION SECTION */}
+      {autoWallet && (
         <>
           {automationWalletMode === AUTOMATION_WALLET_MODES.SIMPLE ? (
-            <div className={styles.simple}>
-              {isFunded ? (
-                <>
-                  {roughTxCountEstimate && (
-                    <span className={styles.success}>
-                      Automation available for roughly{' '}
-                      {roughTxCountEstimate.toFixed(0)} transactions.
-                    </span>
-                  )}
-                  <WithdrawTokens>Empty Wallet</WithdrawTokens>
-                </>
-              ) : (
-                <>
-                  <span className={styles.error}>
-                    Automation not sufficiently funded!
-                  </span>
-                  <FundWallet style="primary">Recharge wallet</FundWallet>
-                </>
-              )}
-            </div>
+            <SimpleView
+              isFunded={isFunded}
+              roughTxCountEstimate={roughTxCountEstimate}
+            />
           ) : (
-            <>
-              <Balance />
-
-              <FundWallet className={styles.fundingBtn} />
-
-              <WithdrawTokens className={styles.withdrawBtn} />
-            </>
+            <AdvancedView />
           )}
 
           <Button onClick={() => deleteWallet()} className={styles.deleteBtn}>
@@ -115,6 +140,7 @@ export default function Details({
         </>
       )}
 
+      {/* IMPORT / EXPORT */}
       {autoWallet ? (
         <Button
           onClick={async () => {
@@ -126,30 +152,10 @@ export default function Details({
         >
           {isLoading ? <Loader /> : `Export Wallet`}
         </Button>
+      ) : needsImport ? (
+        <Import />
       ) : (
-        <>
-          {/* TODO: update importing */}
-          <input type="file" id="walletImport" />
-          <Button
-            onClick={async () => {
-              const password = prompt('Password:')
-              const filename = (document.getElementById('walletImport') as any)
-                .files[0]
-              const reader = new FileReader()
-              reader.readAsText(filename)
-              reader.onload = async (event) => {
-                await importAutomationWallet(
-                  event.target.result.toString(),
-                  password
-                )
-              }
-            }}
-            className={styles.deleteBtn}
-            disabled={isLoading}
-          >
-            {isLoading ? <Loader /> : `Import Wallet`}
-          </Button>
-        </>
+        <Decrypt />
       )}
     </div>
   )

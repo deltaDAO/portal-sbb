@@ -1,32 +1,26 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useAutomation } from '../../../../@context/Automation/AutomationProvider'
 import Tooltip from '../../../@shared/atoms/Tooltip'
 import Details from './Details'
 import Transaction from '@images/transaction.svg'
 import Caret from '@images/caret.svg'
+import Lock from '@images/lock.svg'
+import classNames from 'classnames/bind'
+import { automationConfig } from '../../../../../app.config'
 import stylesIndex from '../index.module.css'
 import styles from './index.module.css'
-import classNames from 'classnames/bind'
 
 const cx = classNames.bind(styles)
-
-enum AUTOMATION_STATES {
-  CREATE,
-  ENABLE,
-  DISABLE
-}
 
 export default function Automation(): ReactElement {
   const {
     autoWallet,
-    setIsAutomationEnabled,
     isAutomationEnabled,
+    hasValidEncryptedWallet,
     hasRetrievableBalance,
-    hasAnyAllowance,
-    activateAutomation
+    hasAnyAllowance
   } = useAutomation()
 
-  const [state, setState] = useState<AUTOMATION_STATES>()
   const [hasError, setHasError] = useState<boolean>()
 
   useEffect(() => {
@@ -37,20 +31,6 @@ export default function Automation(): ReactElement {
     setError()
   }, [hasRetrievableBalance])
 
-  useEffect(() => {
-    if (!autoWallet?.wallet) setState(AUTOMATION_STATES.CREATE)
-    else if (isAutomationEnabled) setState(AUTOMATION_STATES.DISABLE)
-    else setState(AUTOMATION_STATES.ENABLE)
-  }, [autoWallet, isAutomationEnabled])
-
-  const getActionText = useCallback(() => {
-    return state === AUTOMATION_STATES.ENABLE
-      ? 'Enable'
-      : state === AUTOMATION_STATES.DISABLE
-      ? 'Disable'
-      : 'Activate'
-  }, [state])
-
   const wrapperClasses = cx({
     automation: true,
     enabled: isAutomationEnabled
@@ -59,35 +39,29 @@ export default function Automation(): ReactElement {
   const indicatorClasses = cx({
     indicator: true,
     enabled: isAutomationEnabled,
-    warning: !hasAnyAllowance(),
+    warning:
+      automationConfig.useAutomationForErc20 === 'true' && !hasAnyAllowance(),
     error: hasError
   })
 
   return (
     <Tooltip
       content={<Details isFunded={!hasError} />}
-      trigger="focus mouseenter"
+      trigger="focus mouseenter click"
       placement="bottom"
       className={`${stylesIndex.preferences} ${wrapperClasses}`}
     >
-      <div title={`${getActionText()} automation`}>
-        <Transaction
-          onClick={() => {
-            if (isAutomationEnabled) {
-              setIsAutomationEnabled(false)
-              return
-            }
-
-            activateAutomation()
-          }}
-          className={stylesIndex.icon}
-        />
-        {autoWallet?.wallet && (
+      <div className={styles.wrapper}>
+        {!autoWallet && hasValidEncryptedWallet() && (
+          <Lock className={styles.lock} />
+        )}
+        <Transaction className={stylesIndex.icon} />
+        {autoWallet && (
           <div className={indicatorClasses}>
             <div className={styles.indicatorPulse} />
           </div>
         )}
-        {autoWallet?.wallet && <Caret className={stylesIndex.caret} />}
+        {autoWallet && <Caret className={stylesIndex.caret} />}
       </div>
     </Tooltip>
   )

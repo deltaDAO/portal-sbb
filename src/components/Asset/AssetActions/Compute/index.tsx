@@ -337,6 +337,17 @@ export default function Compute({
           asset,
           newCancelToken()
         )
+        if (autoWallet) {
+          const autoComputeJobs = await getComputeJobs(
+            [asset?.chainId] || chainIds,
+            autoWallet?.address,
+            asset,
+            newCancelToken()
+          )
+          autoComputeJobs.computeJobs.forEach((job) => {
+            computeJobs.computeJobs.push(job)
+          })
+        }
         setJobs(computeJobs.computeJobs)
         setIsLoadingJobs(!computeJobs.isLoaded)
       } catch (error) {
@@ -408,9 +419,7 @@ export default function Compute({
         )[selectedAlgorithmAsset.accessDetails?.type === 'fixed' ? 2 : 3]
       )
 
-      const signerToUse: Signer = isAutomationEnabled
-        ? autoWallet.wallet
-        : signer
+      const signerToUse: Signer = isAutomationEnabled ? autoWallet : signer
 
       const algorithmOrderTx = await handleComputeOrder(
         signerToUse,
