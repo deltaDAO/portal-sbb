@@ -62,6 +62,8 @@ import useNetworkMetadata from '@hooks/useNetworkMetadata'
 import { useAsset } from '@context/Asset'
 import WhitelistIndicator from './WhitelistIndicator'
 import { parseConsumerParameterValues } from '../ConsumerParameters'
+import { useAutomation } from '../../../../@context/Automation/AutomationProvider'
+import { Signer } from 'ethers'
 
 const refreshInterval = 10000 // 10 sec.
 
@@ -125,6 +127,8 @@ export default function Compute({
   const [retry, setRetry] = useState<boolean>(false)
   const { isSupportedOceanNetwork } = useNetworkMetadata()
   const { isAssetNetwork } = useAsset()
+
+  const { isAutomationEnabled, autoWallet } = useAutomation()
 
   const hasDatatoken = Number(dtBalance) >= 1
   const isComputeButtonDisabled =
@@ -230,7 +234,9 @@ export default function Compute({
       const initializedProvider = await initializeProviderForCompute(
         asset,
         selectedAlgorithmAsset,
-        accountId || ZERO_ADDRESS, // if the user is not connected, we use ZERO_ADDRESS as accountId
+        isAutomationEnabled && autoWallet?.address
+          ? autoWallet.address
+          : accountId || ZERO_ADDRESS, // if the user is not connected, we use ZERO_ADDRESS as accountId
         selectedComputeEnv
       )
 
@@ -333,6 +339,17 @@ export default function Compute({
           asset,
           newCancelToken()
         )
+        if (autoWallet) {
+          const autoComputeJobs = await getComputeJobs(
+            [asset?.chainId] || chainIds,
+            autoWallet?.address,
+            asset,
+            newCancelToken()
+          )
+          autoComputeJobs.computeJobs.forEach((job) => {
+            computeJobs.computeJobs.push(job)
+          })
+        }
         setJobs(computeJobs.computeJobs)
         setIsLoadingJobs(!computeJobs.isLoaded)
       } catch (error) {
@@ -404,8 +421,10 @@ export default function Compute({
         )[selectedAlgorithmAsset.accessDetails?.type === 'fixed' ? 2 : 3]
       )
 
+      const signerToUse: Signer = isAutomationEnabled ? autoWallet : signer
+
       const algorithmOrderTx = await handleComputeOrder(
-        signer,
+        signerToUse,
         selectedAlgorithmAsset,
         algoOrderPriceAndFees,
         accountId,
@@ -424,7 +443,7 @@ export default function Compute({
       )
 
       const datasetOrderTx = await handleComputeOrder(
-        signer,
+        signerToUse,
         asset,
         datasetOrderPriceAndFees,
         accountId,
@@ -449,7 +468,7 @@ export default function Compute({
       setComputeStatusText(getComputeFeedback()[4])
       const response = await ProviderInstance.computeStart(
         asset.services[0].serviceEndpoint,
-        signer,
+        signerToUse,
         selectedComputeEnv?.id,
         computeAsset,
         computeAlgorithm,

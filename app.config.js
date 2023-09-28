@@ -83,5 +83,12 @@ module.exports = {
   // The url used to fetch docker hub image info
   dockerHubProxyUrl:
     process.env.NEXT_PUBLIC_DOCKER_HUB_PROXY_URL ||
-    'https://dockerhub-proxy.delta-dao.com'
+    'https://dockerhub-proxy.delta-dao.com',
+
+  automationConfig: {
+    networkTokenFundDefaultValue: '2',
+    useAutomationForErc20: 'false',
+    erc20ApprovalDefaultValue: '50',
+    roughTxGasEstimate: 0.02
+  }
 }

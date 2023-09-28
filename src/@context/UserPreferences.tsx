@@ -9,6 +9,7 @@ import React, {
 import { LoggerInstance, LogLevel } from '@oceanprotocol/lib'
 import { isBrowser } from '@utils/index'
 import { useMarketMetadata } from './MarketMetadata'
+import { AUTOMATION_WALLET_MODES } from '../components/Header/UserPreferences/AutomationWalletMode'
 
 interface UserPreferencesValue {
   debug: boolean
@@ -31,6 +32,10 @@ interface UserPreferencesValue {
   showOnboardingModule: boolean
   setShowOnboardingModule: (value: boolean) => void
   locale: string
+  automationWalletJSON: string
+  setAutomationWalletJSON: (encryptedWallet: string) => void
+  automationWalletMode: string
+  setAutomationWalletMode: (mode: string) => void
 }
 
 const UserPreferencesContext = createContext(null)
@@ -91,6 +96,14 @@ function UserPreferencesProvider({
       : localStorage?.showOnboardingModule
   )
 
+  const [automationWallet, setAutomationWallet] = useState<string>(
+    localStorage?.automationWalletJSON || ''
+  )
+
+  const [automationWalletMode, setAutomationWalletMode] = useState<string>(
+    localStorage?.automationWalletMode || AUTOMATION_WALLET_MODES.SIMPLE
+  )
+
   // Write values to localStorage on change
   useEffect(() => {
     setLocalStorage({
@@ -102,7 +115,9 @@ function UserPreferencesProvider({
       showPPC,
       allowExternalContent,
       onboardingStep,
-      showOnboardingModule
+      showOnboardingModule,
+      automationWalletJSON: automationWallet,
+      automationWalletMode
     })
   }, [
     chainIds,
@@ -113,7 +128,9 @@ function UserPreferencesProvider({
     showPPC,
     allowExternalContent,
     onboardingStep,
-    showOnboardingModule
+    showOnboardingModule,
+    automationWallet,
+    automationWalletMode
   ])
 
   // Set ocean.js log levels, default: Error
@@ -182,7 +199,11 @@ function UserPreferencesProvider({
           onboardingStep,
           setOnboardingStep,
           showOnboardingModule,
-          setShowOnboardingModule
+          setShowOnboardingModule,
+          automationWalletJSON: automationWallet,
+          setAutomationWalletJSON: setAutomationWallet,
+          automationWalletMode,
+          setAutomationWalletMode
         } as UserPreferencesValue
       }
     >
