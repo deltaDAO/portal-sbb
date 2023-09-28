@@ -10,7 +10,10 @@ module.exports = {
       '0xEF193A800e956b9fF1c379B7Ac3C55FCA38aDB15', // SBB 08
       '0x8337649C1d86ab41d42ef91E303B814f9FfEC04d' // SBB 09
     ],
-    'datatokens.address': []
+    'datatokens.address': [
+      '0xec6507BAfd050514Cb2727a4de76C540F951f4e4', // GraphQL Demo - Compute (FREE)
+      '0x0eA948603Fec7Bed811C9acBcC88C968a88BfB4B' // GraphQL Demo - Product Quantity Computation Algorithm
+    ]
   },
   featured: [
     {
