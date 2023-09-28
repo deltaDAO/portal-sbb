@@ -9,6 +9,7 @@ import React, {
 import { LoggerInstance, LogLevel } from '@oceanprotocol/lib'
 import { isBrowser } from '@utils/index'
 import { useMarketMetadata } from './MarketMetadata'
+import { AUTOMATION_WALLET_MODES } from '../components/Header/UserPreferences/AutomationWalletMode'
 
 interface UserPreferencesValue {
   debug: boolean
@@ -100,7 +101,7 @@ function UserPreferencesProvider({
   )
 
   const [automationWalletMode, setAutomationWalletMode] = useState<string>(
-    localStorage?.automationWalletMode || 'advanced'
+    localStorage?.automationWalletMode || AUTOMATION_WALLET_MODES.SIMPLE
   )
 
   // Write values to localStorage on change
