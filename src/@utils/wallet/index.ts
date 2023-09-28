@@ -1,6 +1,6 @@
 import { LoggerInstance } from '@oceanprotocol/lib'
 import { createClient, erc20ABI } from 'wagmi'
-import { ethers, Contract, Signer, providers } from 'ethers'
+import { ethers, Contract, Signer } from 'ethers'
 import { formatEther } from 'ethers/lib/utils'
 import { getDefaultClient } from 'connectkit'
 import { polygonMumbai } from 'wagmi/chains'
