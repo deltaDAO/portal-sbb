@@ -12,6 +12,7 @@ import MarketMetadataProvider from '@context/MarketMetadata'
 import { WagmiConfig } from 'wagmi'
 import { ConnectKitProvider } from 'connectkit'
 import { connectKitTheme, wagmiClient } from '@utils/wallet'
+import { FilterProvider } from '@context/Filter'
 import AutomationProvider from '../@context/Automation/AutomationProvider'
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
@@ -30,9 +31,11 @@ function MyApp({ Component, pageProps }: AppProps): ReactElement {
                 <AutomationProvider>
                   <ConsentProvider>
                     <SearchBarStatusProvider>
-                      <App>
-                        <Component {...pageProps} />
-                      </App>
+                      <FilterProvider>
+                        <App>
+                          <Component {...pageProps} />
+                        </App>
+                      </FilterProvider>
                     </SearchBarStatusProvider>
                   </ConsentProvider>
                 </AutomationProvider>

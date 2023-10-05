@@ -1,5 +1,21 @@
 .container {
+  margin-bottom: var(--spacer);
   margin-top: calc(var(--spacer) * 5);
+}
+
+@media screen and (min-width: 54rem) {
+  .paragraph {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacer);
+    text-align: right;
+  }
+
+  .paragraph.mirror {
+    flex-direction: row-reverse;
+    text-align: left;
+  }
 }
 
 .teaser {
@@ -17,34 +33,9 @@
   margin: auto;
 }
 
-.content {
-  padding: var(--spacer) 0;
-}
-
 .content button,
 .content a[class*='button'] {
   display: block;
   margin: var(--spacer) auto;
   margin-right: auto;
-}
-
-@media screen and (min-width: 54rem) {
-  .paragraph {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: right;
-  }
-  .paragraph.mirror {
-    flex-direction: row-reverse;
-    text-align: left;
-  }
-  .content {
-    padding: var(--spacer);
-    padding-right: 0;
-  }
-  .mirror .content {
-    padding: var(--spacer);
-    padding-left: 0;
-  }
 }
