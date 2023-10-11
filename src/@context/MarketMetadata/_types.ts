@@ -36,6 +36,7 @@ export interface AppConfig {
     erc20ApprovalDefaultValue: string
     roughTxGasEstimate: number
   }
+  showPreviewAlert: string
 }
 export interface SiteContent {
   siteTitle: string
@@ -56,6 +57,7 @@ export interface SiteContent {
     }[]
   }[]
   announcement: string
+  devPreviewAnnouncement: string
   warning: {
     ctd: string
   }

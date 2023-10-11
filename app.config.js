@@ -90,5 +90,8 @@ module.exports = {
     useAutomationForErc20: 'false',
     erc20ApprovalDefaultValue: '50',
     roughTxGasEstimate: 0.02
-  }
+  },
+
+  // Display alert banner for the developer preview deployment
+  showPreviewAlert: process.env.NEXT_PUBLIC_SHOW_PREVIEW_ALERT || 'false'
 }
