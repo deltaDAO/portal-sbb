@@ -427,7 +427,7 @@ export default function Compute({
         signerToUse,
         selectedAlgorithmAsset,
         algoOrderPriceAndFees,
-        accountId,
+        isAutomationEnabled ? autoWallet?.address : accountId,
         initializedProviderResponse.algorithm,
         hasAlgoAssetDatatoken,
         selectedComputeEnv.consumerAddress
@@ -446,7 +446,7 @@ export default function Compute({
         signerToUse,
         asset,
         datasetOrderPriceAndFees,
-        accountId,
+        isAutomationEnabled ? autoWallet?.address : accountId,
         initializedProviderResponse.datasets[0],
         hasDatatoken,
         selectedComputeEnv.consumerAddress
