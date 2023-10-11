@@ -6,7 +6,6 @@ import Transaction from '@images/transaction.svg'
 import Caret from '@images/caret.svg'
 import Lock from '@images/lock.svg'
 import classNames from 'classnames/bind'
-import { automationConfig } from '../../../../../app.config'
 import stylesIndex from '../index.module.css'
 import styles from './index.module.css'
 
@@ -17,19 +16,20 @@ export default function Automation(): ReactElement {
     autoWallet,
     isAutomationEnabled,
     hasValidEncryptedWallet,
-    hasRetrievableBalance,
-    hasAnyAllowance
+    balance,
+    nativeBalance
   } = useAutomation()
 
   const [hasError, setHasError] = useState<boolean>()
+  const [hasWarning, setHasWarning] = useState<boolean>(false)
 
   useEffect(() => {
-    const setError = async () => {
-      const balanceAvailable = await hasRetrievableBalance()
-      setHasError(!balanceAvailable)
-    }
-    setError()
-  }, [hasRetrievableBalance])
+    setHasWarning(
+      Object.keys(balance)?.filter((token) => Number(balance[token]) <= 0)
+        .length > 0
+    )
+    setHasError(Number(nativeBalance?.balance) <= 0)
+  }, [balance, nativeBalance])
 
   const wrapperClasses = cx({
     automation: true,
@@ -39,8 +39,7 @@ export default function Automation(): ReactElement {
   const indicatorClasses = cx({
     indicator: true,
     enabled: isAutomationEnabled,
-    warning:
-      automationConfig.useAutomationForErc20 === 'true' && !hasAnyAllowance(),
+    warning: hasWarning,
     error: hasError
   })
 
