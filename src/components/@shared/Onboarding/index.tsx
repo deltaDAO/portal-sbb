@@ -15,7 +15,6 @@ import useBalance from '@hooks/useBalance'
 import { GEN_X_NETWORK_ID } from 'chains.config'
 import ImportWallet from './Steps/ImportWallet'
 import AutomationWalletState from './Steps/AutomationWalletState'
-import AutomationWalletOptions from './Steps/AutomationWalletOptions'
 
 export interface OnboardingStep {
   title: string
@@ -31,8 +30,7 @@ const steps = [
   { shortLabel: 'Connect', component: <ConnectAccount /> },
   { shortLabel: 'Tokens', component: <ImportCustomTokens /> },
   { shortLabel: 'Import', component: <ImportWallet /> },
-  { shortLabel: 'State', component: <AutomationWalletState /> },
-  { shortLabel: 'Options', component: <AutomationWalletOptions /> },
+  { shortLabel: 'Automation', component: <AutomationWalletState /> },
   { shortLabel: 'Ready', component: <Ready /> }
 ]
 

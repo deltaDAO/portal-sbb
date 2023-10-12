@@ -1,6 +1,0 @@
-{
-  "title": "Automation wallet options",
-  "subtitle": "Enable/disable your automation and manage the associated wallet",
-  "body": "From the contextual menu you'll be able to enable/disable the automation (the associated wallet will be kept in memory).\n\nYou have also the option to empty the wallet (transferring the remaining funds to the connected metamask account) or to remove the wallet from the portal.",
-  "image": "/images/onboarding/automation_wallet_options.png"
-}
