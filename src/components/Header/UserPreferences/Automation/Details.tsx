@@ -12,8 +12,7 @@ import Address from './Address'
 import Decrypt from './Decrypt'
 
 function AdvancedView(): ReactElement {
-  const { exportAutomationWallet, isLoading, deleteCurrentAutomationWallet } =
-    useAutomation()
+  const { deleteCurrentAutomationWallet } = useAutomation()
   const deleteWallet = () => {
     deleteCurrentAutomationWallet()
   }
@@ -21,17 +20,6 @@ function AdvancedView(): ReactElement {
   return (
     <div className={styles.advanced}>
       <Balance />
-
-      <Button
-        onClick={async () => {
-          const password = prompt('Enter your password:')
-          await exportAutomationWallet(password)
-        }}
-        className={styles.exportBtn}
-        disabled={isLoading}
-      >
-        {isLoading ? <Loader /> : `Export Wallet`}
-      </Button>
 
       <Button onClick={() => deleteWallet()} className={styles.deleteBtn}>
         Delete Wallet
@@ -49,14 +37,12 @@ function SimpleView({
 }): ReactElement {
   return (
     <div className={styles.simple}>
-      {isFunded ? (
+      {isFunded && roughTxCountEstimate && roughTxCountEstimate > 0 ? (
         <>
-          {roughTxCountEstimate && (
-            <span className={styles.success}>
-              Automation available for roughly {roughTxCountEstimate.toFixed(0)}{' '}
-              transactions.
-            </span>
-          )}
+          <span className={styles.success}>
+            Automation available for roughly {roughTxCountEstimate.toFixed(0)}{' '}
+            transactions.
+          </span>
         </>
       ) : (
         <>
@@ -78,7 +64,7 @@ export default function Details({
     autoWallet,
     autoWalletAddress,
     isAutomationEnabled,
-    balance,
+    nativeBalance,
     isLoading,
     setIsAutomationEnabled,
     hasValidEncryptedWallet
@@ -97,11 +83,11 @@ export default function Details({
   }, [hasValidEncryptedWallet])
 
   useEffect(() => {
-    if (!automationConfig.roughTxGasEstimate || !balance) return
+    if (!automationConfig.roughTxGasEstimate || !nativeBalance?.balance) return
     setRoughTxCountEstimate(
-      Number(balance.eth) / automationConfig.roughTxGasEstimate
+      Number(nativeBalance.balance) / automationConfig.roughTxGasEstimate
     )
-  }, [balance, automationConfig?.roughTxGasEstimate])
+  }, [nativeBalance?.balance, automationConfig?.roughTxGasEstimate])
 
   return (
     <div className={styles.details}>
