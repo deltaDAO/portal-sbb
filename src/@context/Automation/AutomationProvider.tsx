@@ -16,6 +16,7 @@ import Button from '../../components/@shared/atoms/Button'
 import styles from './AutomationProvider.module.css'
 import Loader from '../../components/@shared/atoms/Loader'
 import { useMarketMetadata } from '../MarketMetadata'
+import DeleteAutomationModal from './DeleteAutomationModal'
 
 export interface NativeTokenBalance {
   symbol: string
@@ -31,7 +32,6 @@ export interface AutomationProviderValue {
   decryptPercentage: number
   updateBalance: () => Promise<void>
   setIsAutomationEnabled: (isEnabled: boolean) => void
-  exportAutomationWallet: (password: string) => Promise<void>
   deleteCurrentAutomationWallet: () => void
   importAutomationWallet: (encryptedJson: string) => Promise<boolean>
   hasValidEncryptedWallet: () => boolean
@@ -64,8 +64,7 @@ function AutomationProvider({ children }) {
   const [nativeBalance, setNativeBalance] = useState<NativeTokenBalance>()
   const [balance, setBalance] = useState<UserBalance>({})
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [confirmedDeletion, setConfirmedDeletion] = useState(false)
+  const [hasDeleteRequest, setHasDeleteRequest] = useState(false)
 
   const wagmiProvider = useProvider()
 
@@ -90,29 +89,6 @@ function AutomationProvider({ children }) {
         )}`
       )
   }, [isAutomationEnabled, autoWallet])
-
-  const exportAutomationWallet = useCallback(
-    async (password: string) => {
-      if (!autoWallet || !autoWallet) {
-        toast.error(`Automation wallet does not exist.`)
-        return
-      }
-      setIsLoading(true)
-
-      const encrypted = await autoWallet.encrypt(password)
-
-      const element = document.createElement('a')
-      const jsonFile = new Blob([encrypted], {
-        type: 'application/json'
-      })
-      element.href = URL.createObjectURL(jsonFile)
-      element.download = `account_export_${autoWallet.address}.json`
-      document.body.appendChild(element)
-      element.click()
-      setIsLoading(false)
-    },
-    [autoWallet]
-  )
 
   const updateBalance = useCallback(async () => {
     if (!autoWallet) return
@@ -157,28 +133,20 @@ function AutomationProvider({ children }) {
   }, [updateBalance])
 
   const deleteCurrentAutomationWallet = () => {
-    setIsModalOpen(true)
+    setHasDeleteRequest(true)
   }
 
-  useEffect(() => {
-    const manageDeletion = async () => {
-      if (isModalOpen && !confirmedDeletion) return
-
-      if (confirmedDeletion) {
-        setIsLoading(true)
-        setIsAutomationEnabled(false)
-        setAutoWallet(undefined)
-        setAutomationWalletJSON(undefined)
-        setBalance(undefined)
-        setConfirmedDeletion(false)
-        toast.info('The automation wallet was removed from your machine.')
-        setIsModalOpen(false)
-        setIsLoading(false)
-      }
-    }
-
-    manageDeletion()
-  }, [address, isModalOpen, confirmedDeletion, setAutomationWalletJSON])
+  const removeAutomationWalletAndCleanup = () => {
+    setIsLoading(true)
+    setIsAutomationEnabled(false)
+    setAutoWallet(undefined)
+    setAutoWalletAddress(undefined)
+    setAutomationWalletJSON(undefined)
+    setBalance(undefined)
+    toast.info('The automation wallet was removed from your machine.')
+    setHasDeleteRequest(false)
+    setIsLoading(false)
+  }
 
   const hasValidEncryptedWallet = useCallback(() => {
     return ethers.utils.isAddress(autoWalletAddress)
@@ -246,7 +214,6 @@ function AutomationProvider({ children }) {
         decryptPercentage,
         setIsAutomationEnabled,
         updateBalance,
-        exportAutomationWallet,
         deleteCurrentAutomationWallet,
         importAutomationWallet,
         hasValidEncryptedWallet,
@@ -254,57 +221,12 @@ function AutomationProvider({ children }) {
       }}
     >
       {children}
-      <Modal
-        title="Automation Wallet"
-        onToggleModal={() => setIsModalOpen(!isModalOpen)}
-        isOpen={isModalOpen}
-        className={styles.modal}
-      >
-        {autoWallet?.address && Number(balance?.eth) > 0 ? (
-          <>
-            <strong>
-              {' '}
-              The automation wallet {accountTruncate(autoWallet?.address)} still
-              contains {balance?.eth} network tokens.
-            </strong>
-            <br />
-            If you delete the wallet you will not be able to access related
-            funds from the portal without reimporting. Do you want to continue?
-          </>
-        ) : (
-          <>
-            <strong>
-              {' '}
-              The automation wallet {accountTruncate(autoWallet?.address)} does
-              not contain any funds.
-            </strong>
-            <br />
-            If you delete the wallet you will not be able to access it from the
-            portal without reimporting. Do you want to continue?
-          </>
-        )}
-        <br />
-        <div className={styles.modalActions}>
-          <Button
-            size="small"
-            className={styles.modalCancelBtn}
-            onClick={() => setIsModalOpen(false)}
-            disabled={isLoading}
-          >
-            Cancel
-          </Button>
-          <Button
-            size="small"
-            className={styles.modalConfirmBtn}
-            onClick={() => {
-              setConfirmedDeletion(true)
-            }}
-            disabled={isLoading}
-          >
-            {isLoading ? <Loader message={`Loading...`} /> : `Confirm`}
-          </Button>
-        </div>
-      </Modal>
+      <DeleteAutomationModal
+        hasDeleteRequest={hasDeleteRequest}
+        setHasDeleteRequest={setHasDeleteRequest}
+        disabled={isLoading}
+        onDeleteConfirm={() => removeAutomationWalletAndCleanup()}
+      />
     </AutomationContext.Provider>
   )
 }
