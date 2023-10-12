@@ -19,10 +19,10 @@ module.exports = {
     {
       title: 'Advanced Use Cases for Text and Data Mining',
       assets: [
-        'did:op:21d53b2a3e227bf57c6ed9d1823ff6a2149f429346648e503146e2ff712aa39b', // CrossAsia Probability Calculation Data for Topics in Time - State Library of Berlin
-        'did:op:13731acde4143a7dc1c0dcfbd999b7574ea5f1ee75ba5bb77e2c1485601d2b4a', // CrossAsia Probability Calculation Algorithm for Topics in Time - State Library of Berlin
-        'did:op:dc0765630d1ca3fbfb8f03d7ef63743ab5c4b585b599723476c8122106f34271', // CrossAsia Text Analysis - State Library of Berlin
-        'did:op:bff53f8c36f2156cff80e5fa18f39d76cb3c52617694a7cde4635826209c259c' // CrossAsia Text Analysis Algorithm - State Library of Berlin
+        'did:op:d64b559e6734f95752a7c2ea51b52eb56c9f7ebabc3cd730202f37765a2b661c', // CrossAsia Probability Calculation Data for Topics in Time - State Library of Berlin
+        'did:op:5b350952dfd31393bc505ea0b016c804dae120cc9bf987dcaa31b52fc841f382', // CrossAsia Probability Calculation Algorithm for Topics in Time - State Library of Berlin
+        'did:op:106311fbde5c1f3935bfe514e4cda70437e525a6855f8673023cd35ab681f985', // CrossAsia Text Analysis - State Library of Berlin
+        'did:op:d3eac31ffa9ef6da22ca2517fa21dc1104977cca9d492cf6d137fa4610affb5a' // CrossAsia Text Analysis Algorithm - State Library of Berlin
       ]
     },
     {
