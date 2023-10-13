@@ -128,6 +128,11 @@
   --filter-clear-font-color: var(--color-secondary);
   --filter-clear-hover-font-color: var(--color-highlight);
 
+  /* Verified Badge */
+  --verified-badge-valid-color: var(--brand-blue);
+  --verified-badge-invalid-color: var(--brand-alert-red);
+  --verified-badge-font-color: var(--color-secondary);
+
   /* Confetti */
   --confetti-color-one: var(--brand-red);
   --confetti-color-two: var(--brand-blue);

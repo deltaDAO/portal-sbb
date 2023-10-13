@@ -10,7 +10,7 @@
   justify-content: flex-start;
   align-items: flex-end;
   font-weight: var(--font-weight-bold) !important;
-  color: var(--brand-alert-red);
+  color: var(--verified-badge-invalid-color);
 }
 
 .mainLabel {
@@ -18,13 +18,13 @@
   align-items: center;
   gap: calc(var(--spacer) / 4);
   font-weight: var(--font-weight-bold);
-  color: var(--brand-alert-red);
+  color: var(--verified-badge-invalid-color);
 }
 
 .mainLabel svg,
 .verifiedBadge svg path {
   margin: auto 0;
-  fill: var(--brand-alert-red);
+  fill: var(--verified-badge-invalid-color);
 }
 
 .details {
@@ -36,13 +36,13 @@
 .apiVersion,
 .lastVerified {
   font-weight: var(--font-weight-base);
-  color: var(--color-secondary);
+  color: var(--verified-badge-font-color);
 }
 
 .isValid {
-  color: var(--color-primary);
+  color: var(--verified-badge-valid-color);
 }
 
 .isValid svg path {
-  fill: var(--color-primary);
+  fill: var(--verified-badge-valid-color);
 }
