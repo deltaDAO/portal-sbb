@@ -1,10 +1,11 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { useAutomation } from '../../../../@context/Automation/AutomationProvider'
+import {
+  AUTOMATION_MODES,
+  useAutomation
+} from '../../../../@context/Automation/AutomationProvider'
 import { useMarketMetadata } from '../../../../@context/MarketMetadata'
 import { useUserPreferences } from '../../../../@context/UserPreferences'
 import Button from '../../../@shared/atoms/Button'
-import Loader from '../../../@shared/atoms/Loader'
-import { AUTOMATION_WALLET_MODES } from '../AutomationWalletMode'
 import Balance from './Balance'
 import styles from './Details.module.css'
 import Import from './Import'
@@ -13,15 +14,15 @@ import Decrypt from './Decrypt'
 
 function AdvancedView(): ReactElement {
   const { deleteCurrentAutomationWallet } = useAutomation()
-  const deleteWallet = () => {
-    deleteCurrentAutomationWallet()
-  }
 
   return (
     <div className={styles.advanced}>
       <Balance />
 
-      <Button onClick={() => deleteWallet()} className={styles.deleteBtn}>
+      <Button
+        onClick={() => deleteCurrentAutomationWallet()}
+        className={styles.deleteBtn}
+      >
         Delete Wallet
       </Button>
     </div>
@@ -66,8 +67,8 @@ export default function Details({
     isAutomationEnabled,
     nativeBalance,
     isLoading,
-    setIsAutomationEnabled,
-    hasValidEncryptedWallet
+    hasValidEncryptedWallet,
+    setIsAutomationEnabled
   } = useAutomation()
 
   const { automationConfig } = useMarketMetadata().appConfig
@@ -75,11 +76,11 @@ export default function Details({
 
   const [roughTxCountEstimate, setRoughTxCountEstimate] = useState<number>()
   const [needsImport, setNeedsImport] = useState<boolean>(
-    !hasValidEncryptedWallet()
+    !hasValidEncryptedWallet
   )
 
   useEffect(() => {
-    setNeedsImport(!hasValidEncryptedWallet())
+    setNeedsImport(!hasValidEncryptedWallet)
   }, [hasValidEncryptedWallet])
 
   useEffect(() => {
@@ -118,7 +119,7 @@ export default function Details({
       {/* MAIN AUTOMATION SECTION */}
       {autoWallet && (
         <>
-          {automationWalletMode === AUTOMATION_WALLET_MODES.SIMPLE ? (
+          {automationWalletMode === AUTOMATION_MODES.SIMPLE ? (
             <SimpleView
               isFunded={isFunded}
               roughTxCountEstimate={roughTxCountEstimate}

@@ -1,4 +1,11 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react'
+import React, {
+  FormEvent,
+  FormEventHandler,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import styles from './Decrypt.module.css'
 import Button from '../../../@shared/atoms/Button'
 import { toast } from 'react-toastify'
@@ -14,12 +21,24 @@ export default function Decrypt(): ReactElement {
     setIsAutomationEnabled
   } = useAutomation()
 
-  const decrpytToastRef = useRef(null)
+  const decryptToastRef = useRef(null)
   const passwordInputRef = useRef(null)
 
   useEffect(() => {
-    toast.update(decrpytToastRef.current, { progress: decryptPercentage })
-  }, [decrpytToastRef, decryptPercentage])
+    toast.update(decryptToastRef.current, { progress: decryptPercentage })
+  }, [decryptToastRef, decryptPercentage])
+
+  const initiateDecryption = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!passwordInputRef.current.value) {
+      toast.error('Please provide the password before attempting decryption.')
+      return
+    }
+    decryptToastRef.current = toast.info(`Decrypting Wallet...`)
+    if (await decryptAutomationWallet(passwordInputRef.current.value))
+      setIsAutomationEnabled(true)
+    toast.done(decryptToastRef.current)
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -28,16 +47,7 @@ export default function Decrypt(): ReactElement {
       ) : (
         <>
           <strong className={styles.warning}>The wallet is locked!</strong>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault()
-              decrpytToastRef.current = toast.info(`Decrypting Wallet...`)
-              await decryptAutomationWallet(passwordInputRef.current.value)
-              setIsAutomationEnabled(true)
-              toast.done(decrpytToastRef.current)
-            }}
-            className={styles.form}
-          >
+          <form onSubmit={initiateDecryption} className={styles.form}>
             <InputElement
               name="password"
               placeholder="Password"

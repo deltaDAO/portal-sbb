@@ -12,6 +12,7 @@ import MarketMetadataProvider from '@context/MarketMetadata'
 import { WagmiConfig } from 'wagmi'
 import { ConnectKitProvider } from 'connectkit'
 import { connectKitTheme, wagmiClient } from '@utils/wallet'
+import AutomationProvider from '../@context/Automation/AutomationProvider'
 import { FilterProvider } from '@context/Filter'
 import AutomationProvider from '../@context/Automation/AutomationProvider'
 
