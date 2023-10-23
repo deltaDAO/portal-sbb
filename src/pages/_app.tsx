@@ -14,7 +14,6 @@ import { ConnectKitProvider } from 'connectkit'
 import { connectKitTheme, wagmiClient } from '@utils/wallet'
 import AutomationProvider from '../@context/Automation/AutomationProvider'
 import { FilterProvider } from '@context/Filter'
-import AutomationProvider from '../@context/Automation/AutomationProvider'
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
   Decimal.set({ rounding: 1 })
