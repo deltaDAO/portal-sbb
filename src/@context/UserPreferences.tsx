@@ -9,7 +9,7 @@ import React, {
 import { LoggerInstance, LogLevel } from '@oceanprotocol/lib'
 import { isBrowser } from '@utils/index'
 import { useMarketMetadata } from './MarketMetadata'
-import { AUTOMATION_WALLET_MODES } from '../components/Header/UserPreferences/AutomationWalletMode'
+import { AUTOMATION_MODES } from './Automation/AutomationProvider'
 
 interface UserPreferencesValue {
   debug: boolean
@@ -34,8 +34,8 @@ interface UserPreferencesValue {
   locale: string
   automationWalletJSON: string
   setAutomationWalletJSON: (encryptedWallet: string) => void
-  automationWalletMode: string
-  setAutomationWalletMode: (mode: string) => void
+  automationWalletMode: AUTOMATION_MODES
+  setAutomationWalletMode: (mode: AUTOMATION_MODES) => void
 }
 
 const UserPreferencesContext = createContext(null)
@@ -100,9 +100,10 @@ function UserPreferencesProvider({
     localStorage?.automationWalletJSON || ''
   )
 
-  const [automationWalletMode, setAutomationWalletMode] = useState<string>(
-    localStorage?.automationWalletMode || AUTOMATION_WALLET_MODES.SIMPLE
-  )
+  const [automationWalletMode, setAutomationWalletMode] =
+    useState<AUTOMATION_MODES>(
+      localStorage?.automationWalletMode || AUTOMATION_MODES.SIMPLE
+    )
 
   // Write values to localStorage on change
   useEffect(() => {

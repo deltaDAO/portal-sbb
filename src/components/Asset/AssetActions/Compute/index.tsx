@@ -30,11 +30,7 @@ import {
 import FormStartComputeDataset from './FormComputeDataset'
 import styles from './index.module.css'
 import SuccessConfetti from '@shared/SuccessConfetti'
-import {
-  getServiceByName,
-  isAddressWhitelisted,
-  secondsToString
-} from '@utils/ddo'
+import { getServiceByName, secondsToString } from '@utils/ddo'
 import {
   isOrderable,
   getAlgorithmAssetSelectionList,
@@ -110,6 +106,7 @@ export default function Compute({
   const [computeEnvs, setComputeEnvs] = useState<ComputeEnvironment[]>()
   const [selectedComputeEnv, setSelectedComputeEnv] =
     useState<ComputeEnvironment>()
+  const [termsAndConditions, setTermsAndConditions] = useState<boolean>(false)
   const [initializedProviderResponse, setInitializedProviderResponse] =
     useState<ProviderComputeInitializeResults>()
   const [providerFeeAmount, setProviderFeeAmount] = useState<string>('0')
@@ -130,6 +127,14 @@ export default function Compute({
 
   const { isAutomationEnabled, autoWallet } = useAutomation()
 
+  const [signerToUse, setSignerToUse] = useState<Signer>(signer)
+  const [accountIdToUse, setAccountIdToUse] = useState<string>(accountId)
+
+  useEffect(() => {
+    setSignerToUse(isAutomationEnabled ? autoWallet : signer)
+    setAccountIdToUse(isAutomationEnabled ? autoWallet?.address : accountId)
+  }, [isAutomationEnabled, accountId, autoWallet, signer])
+
   const hasDatatoken = Number(dtBalance) >= 1
   const isComputeButtonDisabled =
     isOrdering === true ||
@@ -147,8 +152,9 @@ export default function Compute({
     const datatokenInstance = new Datatoken(dummySigner)
     const dtBalance = await datatokenInstance.balance(
       asset?.services[0].datatokenAddress,
-      accountId || ZERO_ADDRESS // if the user is not connected, we use ZERO_ADDRESS as accountId
+      accountIdToUse || ZERO_ADDRESS // if the user is not connected, we use ZERO_ADDRESS as accountId
     )
+
     setAlgorithmDTBalance(new Decimal(dtBalance).toString())
     const hasAlgoDt = Number(dtBalance) >= 1
     setHasAlgoAssetDatatoken(hasAlgoDt)
@@ -234,9 +240,7 @@ export default function Compute({
       const initializedProvider = await initializeProviderForCompute(
         asset,
         selectedAlgorithmAsset,
-        isAutomationEnabled && autoWallet?.address
-          ? autoWallet.address
-          : accountId || ZERO_ADDRESS, // if the user is not connected, we use ZERO_ADDRESS as accountId
+        accountIdToUse || ZERO_ADDRESS, // if the user is not connected, we use ZERO_ADDRESS as accountId
         selectedComputeEnv
       )
 
@@ -357,7 +361,7 @@ export default function Compute({
         setIsLoadingJobs(false)
       }
     },
-    [accountId, asset, chainIds, isLoadingJobs, newCancelToken]
+    [accountId, asset, chainIds, autoWallet, newCancelToken]
   )
 
   useEffect(() => {
@@ -427,7 +431,7 @@ export default function Compute({
         signerToUse,
         selectedAlgorithmAsset,
         algoOrderPriceAndFees,
-        isAutomationEnabled ? autoWallet?.address : accountId,
+        accountIdToUse,
         initializedProviderResponse.algorithm,
         hasAlgoAssetDatatoken,
         selectedComputeEnv.consumerAddress
@@ -446,7 +450,7 @@ export default function Compute({
         signerToUse,
         asset,
         datasetOrderPriceAndFees,
-        isAutomationEnabled ? autoWallet?.address : accountId,
+        accountIdToUse,
         initializedProviderResponse.datasets[0],
         hasDatatoken,
         selectedComputeEnv.consumerAddress
@@ -493,7 +497,8 @@ export default function Compute({
   }
 
   const onSubmit = async (values: ComputeDatasetForm) => {
-    if (!values.algorithm || !values.computeEnv) return
+    if (!values.algorithm || !values.computeEnv || !values.termsAndConditions)
+      return
 
     const userCustomParameters = {
       dataServiceParams: parseConsumerParameterValues(
@@ -555,7 +560,8 @@ export default function Compute({
           initialValues={getInitialValues(
             asset,
             selectedAlgorithmAsset,
-            selectedComputeEnv
+            selectedComputeEnv,
+            termsAndConditions
           )}
           validateOnMount
           validationSchema={getComputeValidationSchema(
@@ -600,6 +606,7 @@ export default function Compute({
             )}
             computeEnvs={computeEnvs}
             setSelectedComputeEnv={setSelectedComputeEnv}
+            setTermsAndConditions={setTermsAndConditions}
             // lazy comment when removing pricingStepText
             stepText={computeStatusText}
             isConsumable={isConsumablePrice}

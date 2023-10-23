@@ -12,11 +12,11 @@ export default function ImportWallet(): ReactElement {
   const { title, subtitle, body, image }: OnboardingStep = content
   const { autoWallet, hasValidEncryptedWallet } = useAutomation()
   const [needsImport, setNeedsImport] = useState<boolean>(
-    !hasValidEncryptedWallet()
+    !hasValidEncryptedWallet
   )
 
   useEffect(() => {
-    setNeedsImport(!hasValidEncryptedWallet())
+    setNeedsImport(!hasValidEncryptedWallet)
   }, [hasValidEncryptedWallet])
 
   return (

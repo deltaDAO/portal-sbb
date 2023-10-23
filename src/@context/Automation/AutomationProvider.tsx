@@ -7,16 +7,19 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import { useAccount, useBalance, useChainId, useProvider } from 'wagmi'
-import { accountTruncate, getTokenBalance } from '../../@utils/wallet'
+import { useProvider, useBalance as useWagmiBalance } from 'wagmi'
+import { accountTruncate } from '../../@utils/wallet'
 import { useUserPreferences } from '../UserPreferences'
 import { toast } from 'react-toastify'
-import Modal from '../../components/@shared/atoms/Modal'
-import Button from '../../components/@shared/atoms/Button'
-import styles from './AutomationProvider.module.css'
-import Loader from '../../components/@shared/atoms/Loader'
+
 import { useMarketMetadata } from '../MarketMetadata'
 import DeleteAutomationModal from './DeleteAutomationModal'
+import useBalance from '../../@hooks/useBalance'
+
+export enum AUTOMATION_MODES {
+  SIMPLE = 'simple',
+  ADVANCED = 'advanced'
+}
 
 export interface NativeTokenBalance {
   symbol: string
@@ -30,11 +33,11 @@ export interface AutomationProviderValue {
   nativeBalance: NativeTokenBalance
   isLoading: boolean
   decryptPercentage: number
+  hasValidEncryptedWallet: boolean
   updateBalance: () => Promise<void>
   setIsAutomationEnabled: (isEnabled: boolean) => void
   deleteCurrentAutomationWallet: () => void
   importAutomationWallet: (encryptedJson: string) => Promise<boolean>
-  hasValidEncryptedWallet: () => boolean
   decryptAutomationWallet: (password: string) => Promise<boolean>
 }
 
@@ -46,9 +49,8 @@ const AutomationContext = createContext({} as AutomationProviderValue)
 
 // Provider
 function AutomationProvider({ children }) {
-  const { address } = useAccount()
+  const { getApprovedTokenBalances } = useBalance()
   const { approvedBaseTokens } = useMarketMetadata()
-  const chainId = useChainId()
   const { automationWalletJSON, setAutomationWalletJSON } = useUserPreferences()
 
   const [autoWallet, setAutoWallet] = useState<Wallet>()
@@ -56,8 +58,10 @@ function AutomationProvider({ children }) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [autoWalletAddress, setAutoWalletAddress] = useState<string>()
   const [decryptPercentage, setDecryptPercentage] = useState<number>()
+  const [hasValidEncryptedWallet, setHasValidEncryptedWallet] =
+    useState<boolean>()
 
-  const { data: balanceNativeToken } = useBalance({
+  const { data: balanceNativeToken } = useWagmiBalance({
     address: autoWallet?.address as `0x${string}`
   })
 
@@ -101,25 +105,18 @@ function AutomationProvider({ children }) {
         })
 
       if (approvedBaseTokens?.length > 0) {
-        const newBalance: UserBalance = {}
-        await Promise.all(
-          approvedBaseTokens.map(async (token) => {
-            const { address: tokenAddress, decimals, symbol } = token
-            const tokenBalance = await getTokenBalance(
-              autoWallet?.address,
-              decimals,
-              tokenAddress,
-              wagmiProvider
-            )
-            newBalance[symbol.toLocaleLowerCase()] = tokenBalance
-          })
-        )
+        const newBalance = await getApprovedTokenBalances(autoWallet?.address)
         setBalance(newBalance)
       } else setBalance(undefined)
     } catch (error) {
       LoggerInstance.error('[AutomationProvider] Error: ', error.message)
     }
-  }, [autoWallet, balanceNativeToken, approvedBaseTokens, wagmiProvider])
+  }, [
+    autoWallet,
+    balanceNativeToken,
+    approvedBaseTokens,
+    getApprovedTokenBalances
+  ])
 
   // periodic refresh of automation wallet balance
   useEffect(() => {
@@ -148,8 +145,8 @@ function AutomationProvider({ children }) {
     setIsLoading(false)
   }
 
-  const hasValidEncryptedWallet = useCallback(() => {
-    return ethers.utils.isAddress(autoWalletAddress)
+  useEffect(() => {
+    setHasValidEncryptedWallet(ethers.utils.isAddress(autoWalletAddress))
   }, [autoWalletAddress])
 
   const importAutomationWallet = async (encryptedJson: string) => {
@@ -159,8 +156,10 @@ function AutomationProvider({ children }) {
       setAutomationWalletJSON(encryptedJson)
       return true
     } else {
-      toast.error('Could not import Wallet. JSON format invalid.')
-      LoggerInstance.error('Could not import Wallet. JSON format invalid.')
+      toast.error('Could not import Wallet. Invalid address.')
+      LoggerInstance.error(
+        '[AutomationProvider] Could not import Wallet. Invalid address.'
+      )
       return false
     }
   }
@@ -186,7 +185,7 @@ function AutomationProvider({ children }) {
         })
         setAutoWallet(connectedWallet)
         toast.success(
-          `Succesfully imported wallet ${connectedWallet.address} for automation.`
+          `Successfully imported wallet ${connectedWallet.address} for automation.`
         )
         return true
       } catch (e) {
@@ -212,11 +211,11 @@ function AutomationProvider({ children }) {
         isAutomationEnabled,
         isLoading,
         decryptPercentage,
+        hasValidEncryptedWallet,
         setIsAutomationEnabled,
         updateBalance,
         deleteCurrentAutomationWallet,
         importAutomationWallet,
-        hasValidEncryptedWallet,
         decryptAutomationWallet
       }}
     >
