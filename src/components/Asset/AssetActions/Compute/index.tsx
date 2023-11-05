@@ -425,8 +425,6 @@ export default function Compute({
         )[selectedAlgorithmAsset.accessDetails?.type === 'fixed' ? 2 : 3]
       )
 
-      const signerToUse: Signer = isAutomationEnabled ? autoWallet : signer
-
       const algorithmOrderTx = await handleComputeOrder(
         signer,
         selectedAlgorithmAsset,
