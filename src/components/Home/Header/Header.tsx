@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import classNames from 'classnames/bind'
 import styles from './Header.module.css'
 import { animated, useSpringRef, useTransition } from 'react-spring'
