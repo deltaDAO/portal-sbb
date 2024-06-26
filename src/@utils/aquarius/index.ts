@@ -4,6 +4,7 @@ import axios, { CancelToken, AxiosResponse } from 'axios'
 import { OrdersData_orders as OrdersData } from '../../@types/subgraph/OrdersData'
 import { metadataCacheUri, allowDynamicPricing } from '../../../app.config'
 import {
+  FilterByTypeOptions,
   SortDirectionOptions,
   SortTermOptions
 } from '../../@types/aquarius/SearchQuery'
@@ -12,6 +13,7 @@ import addressConfig from '../../../address.config'
 import { isValidDid } from '@utils/ddo'
 import { Filters } from '@context/Filter'
 import { filterSets } from '@components/Search/Filter'
+import { CHAIN_TO_INDEX_MAP, DEFAULT_INDEX } from './_constants'
 
 export interface UserSales {
   id: string
@@ -98,6 +100,15 @@ FilterTerm | undefined {
     : getFilterTerm('price.type', 'pool')
 }
 
+export function getIndexForChainIds(chainIds: number[]): string[] {
+  const indexes: string[] = []
+  for (const chainId of chainIds) {
+    const index = CHAIN_TO_INDEX_MAP[chainId] || DEFAULT_INDEX
+    indexes.push(index)
+  }
+  return indexes
+}
+
 export function generateBaseQuery(
   baseQueryParams: BaseQueryParams
 ): SearchQuery {
@@ -112,23 +123,24 @@ export function generateBaseQuery(
         ...baseQueryParams.nestedQuery,
         filter: [
           ...(baseQueryParams.filters || []),
-          baseQueryParams.chainIds
-            ? getFilterTerm('chainId', baseQueryParams.chainIds)
-            : [],
-          getFilterTerm('_index', 'v510'),
-          ...(baseQueryParams.ignorePurgatory
-            ? []
-            : [getFilterTerm('purgatory.state', false)]),
+          ...(baseQueryParams.chainIds
+            ? [getFilterTerm('chainId', baseQueryParams.chainIds)]
+            : []),
+          getFilterTerm(
+            '_index',
+            getIndexForChainIds(baseQueryParams.chainIds)
+          ),
           {
             bool: {
               must_not: [
-                !baseQueryParams.ignoreState && getFilterTerm('nft.state', 5),
+                ...(!baseQueryParams.ignoreState
+                  ? [getFilterTerm('nft.state', 5)]
+                  : []),
                 getDynamicPricingMustNot()
               ]
             }
           }
-        ],
-        should: [...getWhitelistShould()]
+        ]
       }
     }
   } as SearchQuery
@@ -144,8 +156,17 @@ export function generateBaseQuery(
         SortDirectionOptions.Descending
     }
 
-  if (generatedQuery.query?.bool?.should?.length > 0) {
-    generatedQuery.query.bool.minimum_should_match = 1
+  // add whitelist filtering
+  if (getWhitelistShould()?.length > 0) {
+    const whitelistQuery = {
+      bool: {
+        should: [...getWhitelistShould()],
+        minimum_should_match: 1
+      }
+    }
+    Object.hasOwn(generatedQuery.query.bool, 'must')
+      ? generatedQuery.query.bool.must.push(whitelistQuery)
+      : (generatedQuery.query.bool.must = [whitelistQuery])
   }
 
   return generatedQuery
@@ -329,6 +350,7 @@ export async function getPublishedAssets(
 
   filters.push(getFilterTerm('nft.state', [0, 4, 5]))
   filters.push(getFilterTerm('nft.owner', accountId.toLowerCase()))
+
   parseFilters(filtersList, filterSets).forEach((term) => filters.push(term))
 
   const baseQueryParams = {
