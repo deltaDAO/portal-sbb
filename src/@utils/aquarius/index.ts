@@ -22,12 +22,6 @@ export interface UserSales {
 
 export const MAXIMUM_NUMBER_OF_PAGES_WITH_RESULTS = 476
 
-const saasFieldExists = {
-  exists: {
-    field: 'metadata.additionalInformation.saas.redirectUrl'
-  }
-}
-
 export function escapeEsReservedCharacters(value: string): string {
   // eslint-disable-next-line no-useless-escape
   const pattern = /([\!\*\+\-\=\<\>\&\|\(\)\[\]\{\}\^\~\?\:\\/"])/g
@@ -118,14 +112,6 @@ export function getIndexForChainIds(chainIds: number[]): string[] {
 export function generateBaseQuery(
   baseQueryParams: BaseQueryParams
 ): SearchQuery {
-  const isMetadataTypeSelected = !!baseQueryParams?.filters?.find((e) =>
-    Object.hasOwn(e, 'term')
-      ? Object.keys(e?.term)?.includes('metadata.type')
-      : Object.hasOwn(e, 'terms')
-      ? Object.keys(e?.terms)?.includes('metadata.type')
-      : false
-  )
-
   const generatedQuery = {
     from: baseQueryParams.esPaginationOptions?.from || 0,
     size:
@@ -144,20 +130,13 @@ export function generateBaseQuery(
             '_index',
             getIndexForChainIds(baseQueryParams.chainIds)
           ),
-          ...(baseQueryParams.ignorePurgatory
-            ? []
-            : [getFilterTerm('purgatory.state', false)]),
-          ...(!isMetadataTypeSelected && baseQueryParams.showSaas
-            ? [saasFieldExists]
-            : []),
           {
             bool: {
               must_not: [
                 ...(!baseQueryParams.ignoreState
                   ? [getFilterTerm('nft.state', 5)]
                   : []),
-                getDynamicPricingMustNot(),
-                ...(baseQueryParams.showSaas === false ? [saasFieldExists] : [])
+                getDynamicPricingMustNot()
               ]
             }
           }
@@ -188,46 +167,6 @@ export function generateBaseQuery(
     Object.hasOwn(generatedQuery.query.bool, 'must')
       ? generatedQuery.query.bool.must.push(whitelistQuery)
       : (generatedQuery.query.bool.must = [whitelistQuery])
-  }
-
-  // if the selected type filter includes both algo and saas, we need to inject the
-  // dataset type to the filter, otherwise saas assets will not show up
-  if (baseQueryParams.showSaas && isMetadataTypeSelected) {
-    const metadataTypeFilter = baseQueryParams?.filters?.find(
-      (e) =>
-        (Object.hasOwn(e, 'term') &&
-          Object.keys(e.term)?.includes('metadata.type')) ||
-        (Object.hasOwn(e, 'terms') &&
-          Object.keys(e.terms)?.includes('metadata.type'))
-    )
-    const metadataSelected = Object.hasOwn(metadataTypeFilter, 'term')
-      ? ([metadataTypeFilter?.term?.['metadata.type']] as string[])
-      : (metadataTypeFilter?.terms?.['metadata.type'] as string[])
-
-    if (
-      metadataSelected?.length === 1 &&
-      metadataSelected.includes(FilterByTypeOptions.Algorithm)
-    ) {
-      const dataTypeIndex = generatedQuery.query.bool.filter.findIndex(
-        (filter) => Object.keys(filter?.terms)?.includes('metadata.type')
-      )
-
-      // push dataset type to 'metadata.type' filter
-      generatedQuery.query.bool.filter[dataTypeIndex].terms[
-        'metadata.type'
-      ].push(FilterByTypeOptions.Data)
-
-      // only allow for either 'metadata.type' === 'algorithm' or saasFieldExists
-      generatedQuery.query.bool.must.push({
-        bool: {
-          should: [
-            getFilterTerm('metadata.type', FilterByTypeOptions.Algorithm),
-            saasFieldExists
-          ],
-          minimum_should_match: 1
-        }
-      })
-    }
   }
 
   return generatedQuery
@@ -412,20 +351,7 @@ export async function getPublishedAssets(
   filters.push(getFilterTerm('nft.state', [0, 4, 5]))
   filters.push(getFilterTerm('nft.owner', accountId.toLowerCase()))
 
-  const showSaas = filtersList?.serviceType?.includes(FilterByTypeOptions.Saas)
-
-  // we make sure to query only for service types that are expected
-  // by Aqua ("dataset" or "algorithm") by removing "saas"
-  const sanitizedFilters = {
-    ...filtersList,
-    serviceType: filtersList.serviceType.filter(
-      (type) => type !== FilterByTypeOptions.Saas
-    )
-  }
-
-  parseFilters(sanitizedFilters, filterSets).forEach((term) =>
-    filters.push(term)
-  )
+  parseFilters(filtersList, filterSets).forEach((term) => filters.push(term))
 
   const baseQueryParams = {
     chainIds,
@@ -446,8 +372,7 @@ export async function getPublishedAssets(
     esPaginationOptions: {
       from: (Number(page) - 1 || 0) * 9,
       size: 9
-    },
-    showSaas
+    }
   } as BaseQueryParams
 
   const query = generateBaseQuery(baseQueryParams)
