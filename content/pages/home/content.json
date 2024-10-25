@@ -9,7 +9,7 @@
       "body": "The principle of decentralization is a perfect fit for **Distributed Ledger Technology**. [Ocean Protocol](https://oceanprotocol.com) is a fully open-source technology stack, leveraging DLT and decentralization, aiming to give control back to the owners of data services. Pontus-X is built on top of Ocean Protocol showcasing how the Gaia-X Powered Ecosystem on DLT and Ocean Protocol can look like, already today.",
       "cta": "Learn More",
       "ctaTo": "https://docs.pontus-x.eu/docs/Community/Introduction",
-      "image": "/images/genx_validators.webp"
+      "image": "/images/ecosystem.webp"
     },
     {
       "title": "Compute-to-Data and its benefits",
@@ -17,6 +17,13 @@
       "cta": "Learn More",
       "ctaTo": "https://youtu.be/W8PuM0lSm4s",
       "image": "/images/ctd_benefits.png"
+    },
+    {
+      "title": "Gaia-X Digital Clearing House (GXDCH)",
+      "body": "The Pontus-X ecosystem provided a direct integration with the Gaia-X Digital Clearing Houses (GXDCH). We fast track your onboarding to X-ecosystems and to offering your services in Gaia-X‍ ecosystems. The GXDCH safeguard the distributed, decentralised ways of running the Gaia-X compliance.",
+      "cta": "Learn More",
+      "ctaTo": "https://gaia-x.eu/gxdch/",
+      "image": "/images/gxdch_powered.webp"
     }
   ]
 }
